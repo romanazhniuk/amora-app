@@ -8,5 +8,33 @@
   "hero_description" : "Take our AI-powered questionnaire to gain a deeper understanding of your cognitive patterns and emotional state. Get personalized recommendations designed just for you.",
   "hero__dot" : "This will take up to five minutes of your time.",
   "Start Test" : "Start Test",
-  "More details" : "More details"
+  "More details" : "More details",
+  "trust_title" : "We are trusted by over 30+ professionals",
+
+  "About_title": "About us" ,
+  "About_description_1" : "Emere is an innovative psychological support platform designed to help you better understand your emotional state and cognitive level through advanced AI-powered analytics. Our interactive questionnaire uses carefully structured questions to assess your mental well-being and provide meaningful insights.",
+  "About_description_2" : "We believe that understanding yourself is the first step to personal growth and emotional balance. Our platform combines advanced artificial intelligence with evidence-based psychological models to provide personalized recommendations that really matter.",
+  "About_description_3" : "Whether you are seeking to better understand your emotions, looking for strategies for stress management, or simply curious about your psychological profile, Emere offers a safe, supportive, and scientifically-based approach to self-discovery.",
+  "features": [
+    {
+      "title": "Speed",
+      "description": "Get instant results and practical recommendations",
+      "icon": "🕒"
+    },
+    {
+      "title": "AI Analysis",
+      "description": "Advanced AI algorithms analyze responses for deeper understanding",
+      "icon": "✨"
+    },
+    {
+      "title": "Recommendations",
+      "description": "Get personalized suggestions tailored to your unique needs",
+      "icon": "🎯"
+    },
+    {
+      "title": "Emotions",
+      "description": "Learn to recognize and manage your feelings more effectively",
+      "icon": "😊"
+    }
+  ]
 }

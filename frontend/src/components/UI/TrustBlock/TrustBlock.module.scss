@@ -1,0 +1,48 @@
+@use '@styles/utils' as u;
+
+
+.trustBlock {
+  max-width: 1170px;
+  padding-top: 150px;
+  display: flex;
+  text-align: center;
+  width: 100%;
+  background-color: u.$main-gradient;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+}
+
+.trustBlock__title {
+  font-family: sans-serif;
+  color: #333;
+  margin-bottom: 50px;
+  font-size: 24px;
+}
+
+.logos_grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.logo_item {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.logo_item img {
+  max-width: 100%;
+  height: auto;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.logo_item img:hover {
+  opacity: 1;
+}
+

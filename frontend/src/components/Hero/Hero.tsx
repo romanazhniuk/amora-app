@@ -7,7 +7,6 @@ export const Hero: React.FC = () => {
   return (
     <section className={styles.hero}>
       <div className={styles.hero__container}>
-        {/* Ліва частина з контентом */}
         <div className={styles.hero__content}>
           <h1 className={styles.hero__title}>{t('title')}</h1>
           <p className={styles.hero__description}>{t('hero_description')}</p>
@@ -27,7 +26,7 @@ export const Hero: React.FC = () => {
         </div>
         <div className={styles.hero__illustration}>
           <div className={styles.hero__orbit}>
-            <img src="/public/img/Hero fon.png" alt="" />
+            <img src="./public/img/Hero_fon.png" alt="" />
           </div>
         </div>
       </div>

@@ -89,11 +89,11 @@
 
 .header__mobile_menu {
   position: absolute;
-  top: 124px; /* Висота вашого хедера */
+  top: 124px;
   left: 0;
   width: 100%;
   height: calc(100vh - 60px);
-  z-index: 1000; /* Дуже високий індекс */
+  z-index: 1000;
   background-color: linear-gradient(90deg, #908FF2 0%, #A2A1F2 46%, #D4D3FE 100%);
 }
 

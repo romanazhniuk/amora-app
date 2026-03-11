@@ -2,14 +2,19 @@ import styles from './NavBar.module.scss';
 import Logo from '/public/img/Logo.png';
 import burgerIcon from '/public/img/burger.png';
 import burgerIconClos from '/public/img/BurgerClos.png';
-import { useState } from 'react';
 import { MobileNav } from '../MobileNav';
 import { LanguageSwitcher } from './../../LanguageSwitcher/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 
-export const NavBar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+type NavBarProps = {
+  isMenuOpen: boolean;
+  setIsMenuOpen: (isMenuOpen: boolean) => void;
+};
 
+export const NavBar: React.FC<NavBarProps> = ({
+  isMenuOpen,
+  setIsMenuOpen,
+}) => {
   const { t } = useTranslation();
 
   const toggleMenu = () => {

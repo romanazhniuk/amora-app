@@ -1,38 +1,52 @@
-import React from 'react';
-import s from './AboutSection.module.scss'; // Або .module.css
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-interface Feature {
-  title: string;
-  description: string;
-  icon: string;
-}
+const images = ['./img/team1.png', './img/team2.png', './img/team3.png'];
 
 export const AboutSection: React.FC = () => {
   const { t } = useTranslation();
 
-  const features = t('features', { returnObjects: true }) as Feature[];
+  const [current, setCurrent] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent(prev => (prev + 1) % images.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section className={s.aboutSection}>
-      <h2 className={s.title}>{t('About_title')}</h2>
-      <div className={s.container}>
-        <div className={s.textContent}>
-          <div className={s.description}>
-            <p>{t('About_description_1')}</p>
-            <p>{t('About_description_2')}</p>
-            <p>{t('About_description_3')}</p>
+    <section className="block about-section pt-30" id="about">
+      <h2 className="pt-5 pb-10 text-5xl">{t('About_title')}</h2>
+      <div className="flex gap-12 items-center">
+        <div className="flex flex-col justify-between h-full max-w-xl">
+          <div>
+            <p className="text-lg text-gray-700 pb-7 ">
+              {t('About_description_1')}
+            </p>
+
+            <p className="text-gray-700 text-lg pb-25">
+              {t('About_description_2')}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-gray-600 text-sm">{t('About_description_3')}</p>
+            <button
+              className="mt-8 border px-6 py-3 rounded-full
+            flex items-center gap-2 bg-blue-200/70"
+            >
+              <span>✉</span> {t('Contact_us')}
+            </button>
           </div>
         </div>
-
-        <div className={s.featuresGrid}>
-          {features.map((feature, index) => (
-            <div key={index} className={s.featureCard}>
-              <div className={s.iconWrapper}>{feature.icon}</div>
-              <h4 className={s.cardTitle}>{feature.title}</h4>
-              <p className={s.cardDesc}>{feature.description}</p>
-            </div>
-          ))}
+        <div className="relative w-full h-full hidden lg:block">
+          <img
+            src={images[current]}
+            className="w-full h-full object-cover
+             rounded-2xl transition-opacity duration-500"
+          />
         </div>
       </div>
     </section>

@@ -4,35 +4,14 @@
   font-family: Inter, sans-serif !important;
 }
 
-main {
-  padding: 0 140px;
-
-   @media (max-width: 1024px) {
-      padding: 0 80px;
-    }
-
-    @media (max-width: 524px) {
-      padding: 0 20px;
-    }
-
-}
-
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: u.$main-gradient;
+}
 
-  &.menuActive {
-    .mainContent,
-    .footer {
-      display: none;
-    }
-
-    .header {
-      height: 100vh;
-      overflow-y: auto;
-    }
-  }
+.header {
+  background: white;
+  width: 100%;
 }
 

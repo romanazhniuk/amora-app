@@ -18,8 +18,10 @@ i18n
       escapeValue: false,
     },
     backend: {
-      loadPath: 'locales/{{lng}}/translation.json',
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
+    defaultNS: 'translation',
+    ns: ['translation', 'tips'],
   });
 
 export default i18n;

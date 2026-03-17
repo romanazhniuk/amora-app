@@ -1,14 +1,12 @@
-import styles from './NavBar.module.scss';
-import Logo from '/public/img/Logo.png';
-import burgerIcon from '/public/img/burger.png';
-import burgerIconClos from '/public/img/BurgerClos.png';
+import Logo from '/img/Logo.png';
 import { MobileNav } from '../MobileNav';
 import { LanguageSwitcher } from './../../LanguageSwitcher/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 type NavBarProps = {
   isMenuOpen: boolean;
-  setIsMenuOpen: (isMenuOpen: boolean) => void;
+  setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const NavBar: React.FC<NavBarProps> = ({
@@ -18,37 +16,77 @@ export const NavBar: React.FC<NavBarProps> = ({
   const { t } = useTranslation();
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setIsMenuOpen(prev => !prev);
   };
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   return (
-    <div className={styles.navbar}>
-      <div className={styles.left_section}>
-        <div className={styles.navbar__logo}>
+    <div
+      className="relative flex items-center
+      justify-between h-16 w-full pt-2 px-4"
+    >
+      <div className="flex items-center gap-4">
+        <div className="w-12 h-12">
           <img src={Logo} alt="Logo"></img>
         </div>
       </div>
 
-      <div className={styles.app_name}>Emora App</div>
+      <div
+        className="text-black text-2xl font-semibold
+      w-auto absolute left-1/2
+       -translate-x-1/2"
+      >
+        Emora App
+      </div>
 
-      <div className={styles.right_section}>
-        <div className={styles.navbar__actions}>
-          <button className={styles.btn_login}>{t('Sign in')}</button>
-          <button className={styles.btn_signup}>{t('Sign up')}</button>
+      <div className="flex items-center gap-4 whitespace-nowrap">
+        <div className="hidden lg:flex items-center gap-2">
+          <button
+            className="text-gray-400 bg-white
+          border px-6 py-3
+          rounded-full w-auto"
+          >
+            {t('Sign in')}
+          </button>
+          <button
+            className="text-gray-400 bg-white
+          border px-6 py-3 rounded-full"
+          >
+            {t('Sign up')}
+          </button>
           <LanguageSwitcher />
         </div>
 
         {isMenuOpen && (
-          <div className={styles.header__mobile_menu}>
-            <MobileNav />
+          <div
+            className="fixed top-16 left-0 w-full h-screen
+          lg:hidden z-40 bg-white"
+          >
+            <MobileNav onClose={() => setIsMenuOpen(false)} />
           </div>
         )}
 
-        <button className={styles.header__burger} onClick={toggleMenu}>
+        <button
+          className="lg:hidden flex items-center justify-center p-2"
+          onClick={toggleMenu}
+          type="button"
+          aria-label="Toggle menu"
+        >
           <img
-            src={isMenuOpen ? burgerIconClos : burgerIcon}
-            alt={isMenuOpen ? 'Закрити меню' : 'Відкрити меню'}
-            className={styles.header__burger_icon}
+            src={isMenuOpen ? './img/BurgerClos.svg' : './img/Burger.png'}
+            alt="Menu"
+            className="w-8 h-8"
           />
         </button>
       </div>

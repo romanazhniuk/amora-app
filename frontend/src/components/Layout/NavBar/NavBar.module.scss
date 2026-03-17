@@ -96,29 +96,3 @@
   z-index: 1000;
   background-color: linear-gradient(90deg, #908FF2 0%, #A2A1F2 46%, #D4D3FE 100%);
 }
-
-@include u.on-tablet {
-  .navbar {
-    padding: 20px 80px;
-  }
-}
-
-@include u.on-desktop {
-  .navbar {
-    padding: 40px 140px;
-  }
-}
-
-@media (max-width: 1105px) {
-  .navbar__actions {
-    display: none;
-  }
-
-  .header__burger {
-    display: block;
-  }
-
-  .header__mobile_menu {
-    display: flex;
-  }
-}

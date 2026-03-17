@@ -1,13 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import styles from './Hero.module.scss';
 
 export const Hero: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <section className="w-auto h-auto pt-8 lg:pt-15 xl:pt-30 pb-20">
-      <div className={styles.hero__container}>
-        <div className={styles.hero__content}>
+      <div className="flex max-w-480 m-auto justify-between items-center">
+        <div className="max-w-210">
           <h1
             className="text-black text-4xl md:text-5xl
            lg:text-7xl pb-6 text-left "

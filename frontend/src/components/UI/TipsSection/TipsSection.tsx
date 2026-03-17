@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
 import React, { useRef, useState } from 'react';
-import styles from './TipsSection.module.scss';
 import { useTranslation } from 'react-i18next';
 import { categories, recommendations } from './../../../data/recommendations';
 
@@ -25,13 +24,13 @@ export const TipsSection: React.FC = () => {
   };
 
   return (
-    <section className={styles.container}>
+    <section className="max-w-420 pt-25 flex w-auto flex-col ">
       <h2 className="text-5xl pb-5">{t('TipsSection_title')}</h2>
       <p className="text-xl text-gray-600 pb-12">
         {t('TipsSection_description')}
       </p>
 
-      <div className="flex gap-8 mb-10 ">
+      <div className="flex flex-wrap gap-4 mb-10 ">
         {categories.map(cat => (
           <button
             key={cat.id}
@@ -73,13 +72,14 @@ export const TipsSection: React.FC = () => {
         {currentData.map(item => (
           <div
             key={item.id}
-            className="min-w-[280px] bg-white border rounded-xl p-4 shadow-sm"
+            className="min-w-[260px] flex-shrink-0
+             bg-white border rounded-xl p-4 shadow-sm"
           >
             <div className="aspect-video mb-4 rounded-lg overflow-hidden">
               <iframe
                 src={item.video}
                 title={t(`${item.itemKey}.title`)}
-                className="w-full h-full"
+                className="w-full h-full block"
                 allowFullScreen
               />
             </div>

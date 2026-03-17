@@ -140,8 +140,6 @@ export const Footer: React.FC = () => {
             </div>
           </div>
         </div>
-
-        {/* Нижня лінія: Copyright */}
         <div
           className="pt-8 border-t border-gray-200 flex flex-col
          md:flex-row justify-center items-center gap-4

@@ -1,0 +1,36 @@
+{
+  "TipsSection_title" : "Tips and general recommendations",
+  "TipsSection_description" : "Explore our collection of wellness resources designed to improve your emotional well-being, reduce stress, and support your mental health.",
+  "TipsSection": {
+    "title": "Useful tips",
+    "description": "Choose a category to get personalized recommendations for improving your condition.",
+    "categories": {
+      "breathing": " Breathing techniques",
+      "music": " Music recommendations",
+      "movies": " Inspiring movies",
+      "books": " Recommended books"
+    },
+    "items": {
+      "breathing_478": {
+        "title": "4-7-8 Breathing",
+        "text": "Inhale for 4 seconds, hold for 7, exhale for 8."
+      },
+      "breathing_box": {
+        "title": "Box breathing",
+        "text": "4 seconds inhale — 4 second hold — 4 second exhale."
+      },
+      "lofi_music": {
+        "title": "LoFi music",
+        "text": "Calm music for stress relief"
+      },
+      "self_help_books": {
+        "title": "Self-help books",
+        "text": "Explore our curated list of self-help books for personal growth and emotional well-being."
+      },
+      "relaxing_movies": {
+        "title": "Relaxing movies",
+        "text": "Discover a selection of relaxing movies to unwind and boost your mood."
+      }
+    }
+  }
+}

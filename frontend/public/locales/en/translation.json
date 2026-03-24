@@ -30,6 +30,18 @@
   "AppPromo_Android" : "Download for Android",
   "TeamSection_title" : "Founders of the idea",
   "TeamSection_description" : "We are a team that created this project to make psychological support more accessible to everyone. Our app helps teenagers and adults better understand their emotions.",
+  "Login_welcome" : "Welcome back!",
+  "Login_description" : "Nice to see you again. Sign in to your account to continue.",
+  "Login_email" : "E-mail*",
+  "Login_password" : "Password",
+  "Login_password_2" : "Forgot your password?",
+  "Login_Log" : "Log in to your account",
+  "Login_Log_or" : "Or log in via",
+  "Login_gogle" : "Continue with Google",
+  "Login_faceboock" : "Continue with Facebook",
+  "Login_havent" : "Don't have an account?",
+  "Login_register" : "Register",
+  "Login_description_1" : "Your personal data is protected and used in accordance with our privacy policy.",
   "team": {
     "members": {
       "oleksandr_kovalenko": {
@@ -69,6 +81,10 @@
     "copy": "© EMORA APP 2026. All rights reserved",
     "policy": "Privacy Policy",
     "motto": "Created to support your mental health"
-  }
+  },
+  "Register_page" : "Create an account",
+  "teams" : "Team",
+  "Addition" : "Addition",
+  "Our_team" : "Our team"
 }
 

@@ -1,14 +1,15 @@
 {
   "TipsSection_title" : "Tips and general recommendations",
   "TipsSection_description" : "Explore our collection of wellness resources designed to improve your emotional well-being, reduce stress, and support your mental health.",
+  "Health_resources" : "Health resources",
   "TipsSection": {
     "title": "Useful tips",
     "description": "Choose a category to get personalized recommendations for improving your condition.",
     "categories": {
-      "breathing": "01 Breathing techniques",
-      "music": "02 Music recommendations",
-      "movies": "03 Inspiring movies",
-      "books": "04 Recommended books"
+      "breathing": " Breathing techniques",
+      "music": " Music recommendations",
+      "movies": " Inspiring movies",
+      "books": " Recommended books"
     },
     "items": {
       "breathing_478": {

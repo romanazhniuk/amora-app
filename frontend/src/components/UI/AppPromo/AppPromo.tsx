@@ -6,13 +6,19 @@ export const AppPromo: React.FC = () => {
 
   return (
     <section
-      className="max-w-7xl mx-auto px-4 py-12
+      className="max-w-480 mx-auto px-4 py-12
     lg:py-24 flex flex-col lg:flex-row-reverse items-center gap-12"
     >
       <div className="flex-1 flex flex-col text-left">
+        <div
+          className="mb-6 px-6 py-1 bg-primary-20 text-primary-dark-90
+         text-lg font-semibold rounded-full w-fit"
+        >
+          {t('Addition')}
+        </div>
         <h1
           className="text-4xl lg:text-5xl font-bold
-         text-gray-900 mb-6 leading-tight w-[100%]"
+         text-gray-900 mb-6 leading-tight w-full"
         >
           {t('Mobile_application')}
           <br />
@@ -80,9 +86,9 @@ export const AppPromo: React.FC = () => {
           className="absolute top-30 lg:top-50 left-1/2
           -translate-x-1/2 -translate-y-1/2
                w-[110%] h-[110%] bg-indigo-50 rounded-[40px] -z-10
-               lg:w-full lg:h-full lg:max-w-[450px]"
+               lg:w-full lg:h-full lg:max-w-113"
         />
-        <div className="max-w-[280px] lg:max-w-[400px] z-10">
+        <div className="max-w-70 lg:max-w-100 z-10">
           <img
             src="./img/Iphon.png"
             alt="Emora App Mockup"

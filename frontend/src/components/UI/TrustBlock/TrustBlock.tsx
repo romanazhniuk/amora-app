@@ -22,7 +22,7 @@ export const TrustBlock: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className={styles.trustBlock}>
+    <div className="pt-10 max-w-480 mx-auto">
       <h2
         className="flex text-lg font-medium
        justify-center "

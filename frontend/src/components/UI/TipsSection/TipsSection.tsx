@@ -2,6 +2,7 @@
 import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { categories, recommendations } from './../../../data/recommendations';
+import Icon from './../../../../public/icons/icontip.svg';
 
 export const TipsSection: React.FC = () => {
   const { t } = useTranslation('tips');
@@ -24,25 +25,41 @@ export const TipsSection: React.FC = () => {
   };
 
   return (
-    <section className="max-w-420 pt-25 flex w-auto flex-col ">
-      <h2 className="text-5xl pb-5">{t('TipsSection_title')}</h2>
+    <section className="max-w-480 pt-25 flex w-auto flex-col   mx-auto">
+      <div
+        className="px-6 py-1 bg-primary-20 text-primary-dark-90
+       text-lg font-semibold rounded-full  mb-8 w-fit"
+      >
+        {t('Health_resources')}
+      </div>
+      <h2 className="text-4xl pb-5">{t('TipsSection_title')}</h2>
       <p className="text-xl text-gray-600 pb-12">
         {t('TipsSection_description')}
       </p>
 
-      <div className="flex flex-wrap gap-4 mb-10 ">
-        {categories.map(cat => (
+      <div className="flex flex-col lg:flex-row w-full gap-4 lg:gap-6 mb-10">
+        {categories.map((cat, index) => (
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`pb-2 text-sm transition
-          ${
-            activeCategory === cat.id
-              ? 'border-b-2 border-black font-semibold'
-              : 'text-gray-700'
-          }`}
+            className={`flex-1 pb-3 text-left transition-all duration-300 border-b-4
+      ${
+        activeCategory === cat.id
+          ? 'border-primary-dark-90 text-primary-dark-90'
+          : // eslint-disable-next-line max-len
+            'border-indigo-100 text-indigo-200 hover:text-primary-dark-90 hover:border-primary-dark-80'
+      }`}
           >
-            {t(cat.key)}
+            <div className="flex items-center gap-3">
+              {/* Номер категорії */}
+              <span className="text-base font-medium">{index + 1}</span>
+              {/* Назва категорії */}
+              <span
+                className={`text-sm lg:text-base ${activeCategory === cat.id ? 'font-bold' : 'font-medium'}`}
+              >
+                {t(cat.key)}
+              </span>
+            </div>
           </button>
         ))}
       </div>
@@ -72,21 +89,55 @@ export const TipsSection: React.FC = () => {
         {currentData.map(item => (
           <div
             key={item.id}
-            className="min-w-[260px] flex-shrink-0
-             bg-white border rounded-xl p-4 shadow-sm"
+            className="min-w-65 shrink-0
+             bg-white border rounded-xl p-4 shadow-sm max-w-[320px]"
           >
             <div className="aspect-video mb-4 rounded-lg overflow-hidden">
               <iframe
                 src={item.video}
                 title={t(`${item.itemKey}.title`)}
-                className="w-full h-full block"
+                className="h-auto w-auto max-h-60 "
                 allowFullScreen
               />
             </div>
 
             <h3 className="font-semibold mb-2">{t(`${item.itemKey}.title`)}</h3>
 
-            <p className="text-sm text-gray-500">{t(`${item.itemKey}.text`)}</p>
+            <p
+              className="text-sm text-gray-500 leading-relaxed line-clamp-3
+            max-w-[90%] lg:max-w-xs"
+            >
+              {t(`${item.itemKey}.text`)}
+            </p>
+            <div className="mt-auto pt-4">
+              <div className="group flex items-center cursor-pointer w-fit">
+                <a href={item.video}>
+                  <div
+                    className="flex items-center bg-primary-70
+                     text-primary-dark-90 rounded-full
+         p-2.5 transition-all duration-500 ease-in-out group-hover:pr-5"
+                  >
+                    {/* Текст, що виїжджає при наведенні */}
+                    <span
+                      className="max-w-0 overflow-hidden
+                       whitespace-nowrap font-bold
+           text-sm transition-all duration-500 ease-in-out
+            group-hover:max-w-30 group-hover:pl-2 group-hover:pr-2"
+                    >
+                      Переглянути
+                    </span>
+
+                    {/* SVG Стрілка з вашого дизайну */}
+                    <div
+                      className="w-5 h-5 bg-primary-70 rounded-full
+           flex items-center justify-center shrink-0"
+                    >
+                      <img src={Icon} alt="icon" />
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
           </div>
         ))}
       </div>

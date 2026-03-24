@@ -1,13 +1,26 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import WaveFoter from './../../../../public/icons/wavefoter.svg';
+
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <footer className="bg-[#F2F2F2] pt-16 pb-8 px-4 border-t border-gray-100">
+    <footer
+      className="relative pt-16 mt-16 pb-8 px-4 bg-primary-30 pl-4 pr-4 md:pl-6
+     md:pr-6 lg:pl-15
+      lg:pr-15 xl:pl-40 xl:pr-40"
+      id="target-contact"
+    >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+          <img
+            src={WaveFoter}
+            alt="wave"
+            className="absolute top-1 left-0 w-full
+              -translate-y-full object-fill"
+          />
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               {t('footer.title')}

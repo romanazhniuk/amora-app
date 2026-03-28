@@ -1,10 +1,12 @@
 import { useTranslation } from 'react-i18next';
 
-type Lang = {
+type LanguageSwitcherProps = {
   isLight: boolean;
 };
 
-export const LanguageSwitcher: React.FC<Lang> = ({ isLight }) => {
+export const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({
+  isLight,
+}) => {
   const { i18n } = useTranslation();
 
   const languages = [

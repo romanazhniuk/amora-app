@@ -6,24 +6,28 @@ export const TeamSection: React.FC = () => {
 
   const team = [
     {
+      id: '1',
       name: t('team.members.oleksandr_kovalenko.name'),
       role: t('team.members.oleksandr_kovalenko.role'),
       desc: t('team.members.oleksandr_kovalenko.desc'),
       img: './img/teamSection.png',
     },
     {
+      id: '2',
       name: t('team.members.mariya_shevchuk.name'),
       role: t('team.members.mariya_shevchuk.role'),
       desc: t('team.members.mariya_shevchuk.desc'),
       img: './img/teamSection.png',
     },
     {
+      id: '3',
       name: t('team.members.dmytro_bondar.name'),
       role: t('team.members.dmytro_bondar.role'),
       desc: t('team.members.dmytro_bondar.desc'),
       img: './img/teamSection.png',
     },
     {
+      id: '4',
       name: t('team.members.iryna_melnyk.name'),
       role: t('team.members.iryna_melnyk.role'),
       desc: t('team.members.iryna_melnyk.desc'),
@@ -49,8 +53,8 @@ export const TeamSection: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        {team.map((member, index) => (
-          <div key={index} className="flex flex-col group">
+        {team.map(member => (
+          <div key={member.id} className="flex flex-col group">
             <div
               className="aspect-square bg-[#EDEDED] rounded-xl
             mb-6 overflow-hidden relative"

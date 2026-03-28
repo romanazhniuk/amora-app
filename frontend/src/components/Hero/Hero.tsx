@@ -59,7 +59,7 @@ export const Hero: React.FC = () => {
           </div>
           <div className="flex items-center justify-end">
             <div className=" hidden lg:block w-full h-full min-w-120">
-              <img src="./public/icons/Design.svg" alt="Desing" />
+              <img src="./icons/Design.svg" alt="Desing" />
             </div>
           </div>
 

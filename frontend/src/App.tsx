@@ -10,7 +10,9 @@ export const App: React.FC = () => {
   const location = useLocation();
 
   const isLight =
-    location.pathname === '/login' || location.pathname === '/register';
+    location.pathname === '/login' ||
+    location.pathname === '/register' ||
+    location.pathname === '/test';
 
   return (
     <section>

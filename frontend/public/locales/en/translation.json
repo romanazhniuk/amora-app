@@ -85,6 +85,46 @@
   "Register_page" : "Create an account",
   "teams" : "Team",
   "Addition" : "Addition",
-  "Our_team" : "Our team"
+  "Our_team" : "Our team",
+  "Register_welcome" : "Create an account",
+  "Register_description" : "Join us to access all the features of the app.",
+  "Register_fullnameinput" : "First and Last Name*",
+  "Register_fullname" : "John Wick",
+  "Register_email" : "E-mail address*",
+  "Register_password" : "Password*",
+  "Register_confirmPassword" : "Confirm password",
+  "Register_or" : "Or register via",
+  "Register_have" : "Do you already have an account?",
+  "Register_sing" : "Sign in",
+  "Register_interests_label": "What are your hobbies? (optional)",
+  "steps": {
+    "personal_data": "Personal Data",
+    "quiz": "Quiz Questions",
+    "test_result": "Test Result",
+    "recommendations": "Recommendations"
+  },
+  "interests": {
+    "video_games": "Video Games",
+    "reading": "Reading",
+    "travel": "Travel",
+    "walking": "Walking",
+    "sport": "Sport",
+    "dancing": "Dancing",
+    "youtube": "YouTube",
+    "movies": "Movies/Series",
+    "drawing": "Drawing",
+    "meditation": "Meditation"
+  },
+  "genders": {
+    "female": "Female",
+    "male": "Male",
+    "other": "Other"
+  },
+  "Test_title" : "This section will help us understand you better." ,
+  "Test_description" : "All information is used only to generate a personal result!" ,
+  "Test_name" : "Name*" ,
+  "Test_lastname" : "Last name (optional)" ,
+  "Test_gender" : "Your gender*" ,
+  "Test_old" : "How old are you?*"
 }
 

@@ -109,6 +109,46 @@
   "teams" : "Команда",
   "Addition" : "Додаток",
   "Health_resources" : "Оздоровчі ресурси",
-  "Our_team" : "Наша команда"
+  "Our_team" : "Наша команда",
+  "Register_welcome" : "Створити акаунт",
+  "Register_description" : "Приєднуйтесь до нас, щоб отримати доступ до всіх можливостей додатку.",
+  "Register_fullnameinput" : "Ім’я та Прізвище*",
+  "Register_fullname" : "Джон Уік",
+  "Register_email" : "Електронна адреса*",
+  "Register_password" : "Пароль*",
+  "Register_confirmPassword" : "Підтвердіть пароль",
+  "Register_or" : "Або зареєструватися через",
+  "Register_have" : "Ви вже маєте акаунт?",
+  "Register_sing" : "Увійти",
+  "Register_interests_label": "Які ваші захоплення? (необов’язково)",
+  "steps": {
+    "personal_data": "Персональні дані",
+    "quiz": "Запитання (Quiz)",
+    "test_result": "Результат тесту",
+    "recommendations": "Рекомендації"
+  },
+  "interests": {
+    "video_games": "Відео-ігри",
+    "reading": "Читання книг",
+    "travel": "Подорожі",
+    "walking": "Прогулянки",
+    "sport": "Спорт",
+    "dancing": "Танці",
+    "youtube": "YouTube",
+    "movies": "Фільми/серіали",
+    "drawing": "Малювання",
+    "meditation": "Медитація"
+  },
+  "genders": {
+    "female": "Дівчина",
+    "male": "Хлопець",
+    "other": "Інше"
+  },
+  "Test_title" : "Цей розділ допоможе нам краще зрозуміти вас." ,
+  "Test_description" : "Уся інформація використовується лише для формування персонального результату!" ,
+  "Test_name" : "Ім’я*" ,
+  "Test_lastname" : "Прізвище (необов’язково)" ,
+  "Test_gender" : "Ваша стать*" ,
+  "Test_old" : "Скільки вам років?*"
 }
 

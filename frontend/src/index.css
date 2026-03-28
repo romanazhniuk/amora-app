@@ -2,7 +2,6 @@
 
 
 @theme {
-  /* Додавання окремого кольору */
   --color-primary: #8D75E6;
   --color-primary-dark: #3A3170;
   --color-primary-dark-90: #483D8B;
@@ -18,9 +17,6 @@
   --color-error: #F93737;
   --color-warning: #FCAA32;
   --color-success: #179D27;
-
-
-  /* Створення палітри відтінків (класи: text-capcut-500, bg-capcut-900 тощо) */
   --color-gray-0: #fff;
   --color-gray-10: #EAEAEA;
   --color-gray-20: #D4D4D4;
@@ -35,13 +31,12 @@
 }
 
 html {
-  -ms-overflow-style: none;  /* IE та Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 body {
-  overflow-x: hidden; /* Додатково прибираємо горизонтальний скрол, який часто псує вигляд */
-}
+  overflow-x: hidden;
 
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -50,4 +45,5 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
 }

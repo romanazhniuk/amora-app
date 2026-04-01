@@ -7,31 +7,24 @@ export const TeamSection: React.FC = () => {
   const team = [
     {
       id: '1',
-      name: t('team.members.oleksandr_kovalenko.name'),
-      role: t('team.members.oleksandr_kovalenko.role'),
-      desc: t('team.members.oleksandr_kovalenko.desc'),
-      img: './img/teamSection.png',
+      name: t('team.members.Chuchman_Oleksandr.name'),
+      role: t('team.members.Chuchman_Oleksandr.role'),
+      desc: t('team.members.Chuchman_Oleksandr.desc'),
+      img: './icons/team1.svg',
     },
     {
       id: '2',
-      name: t('team.members.mariya_shevchuk.name'),
-      role: t('team.members.mariya_shevchuk.role'),
-      desc: t('team.members.mariya_shevchuk.desc'),
-      img: './img/teamSection.png',
+      name: t('team.members.Senyk_Bohdank.name'),
+      role: t('team.members.Senyk_Bohdank.role'),
+      desc: t('team.members.Senyk_Bohdank.desc'),
+      img: './icons/team2.svg',
     },
     {
       id: '3',
-      name: t('team.members.dmytro_bondar.name'),
-      role: t('team.members.dmytro_bondar.role'),
-      desc: t('team.members.dmytro_bondar.desc'),
-      img: './img/teamSection.png',
-    },
-    {
-      id: '4',
-      name: t('team.members.iryna_melnyk.name'),
-      role: t('team.members.iryna_melnyk.role'),
-      desc: t('team.members.iryna_melnyk.desc'),
-      img: './img/teamSection.png',
+      name: t('team.members.Shenger_Roman.name'),
+      role: t('team.members.Shenger_Roman.role'),
+      desc: t('team.members.Shenger_Roman.desc'),
+      img: './icons/team3.svg',
     },
   ];
 

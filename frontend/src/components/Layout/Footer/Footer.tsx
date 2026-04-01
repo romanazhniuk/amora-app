@@ -111,7 +111,7 @@ export const Footer: React.FC = () => {
                 <li className="leading-relaxed">
                   м. Львів, вул. Шевченка 55/а
                   <br />
-                  Центри допомоги &aposБаланс&apos
+                  Центри допомоги &quot;Баланс&quot;
                 </li>
                 <li>
                   <a

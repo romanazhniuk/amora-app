@@ -13,7 +13,7 @@ interface FormValues {
   confirmPassword: string;
   birthDate: string;
   gender: string;
-  hobbies: string;
+  hobbies: string[];
 }
 
 export const RegisterForm = () => {
@@ -30,7 +30,9 @@ export const RegisterForm = () => {
     hobbies: '',
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof FormValues, string>>
+  >({});
 
   // Універсальний обробник змін
   const handleChange = e => {

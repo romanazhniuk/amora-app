@@ -19,17 +19,17 @@ export const StepThree = ({
   toggleHobby,
 }: StepThreeProps) => {
   const { t } = useTranslation();
-  const interests = [
-    { id: 'video_games', label: t('interests.video_games') },
-    { id: 'reading', label: t('interests.reading') },
-    { id: 'travel', label: t('interests.travel') },
-    { id: 'walking', label: t('interests.walking') },
-    { id: 'sport', label: t('interests.sport') },
-    { id: 'dancing', label: t('interests.dancing') },
-    { id: 'youtube', label: t('interests.youtube') },
-    { id: 'movies', label: t('interests.movies') },
-    { id: 'drawing', label: t('interests.drawing') },
-    { id: 'meditation', label: t('interests.meditation') },
+  const Hobbies = [
+    { id: 'video_games', label: t('Hobbies.video_games') },
+    { id: 'reading', label: t('Hobbies.reading') },
+    { id: 'travel', label: t('Hobbies.travel') },
+    { id: 'walking', label: t('Hobbies.walking') },
+    { id: 'sport', label: t('Hobbies.sport') },
+    { id: 'dancing', label: t('Hobbies.dancing') },
+    { id: 'youtube', label: t('Hobbies.youtube') },
+    { id: 'movies', label: t('Hobbies.movies') },
+    { id: 'drawing', label: t('Hobbies.drawing') },
+    { id: 'meditation', label: t('Hobbies.meditation') },
   ];
 
   return (
@@ -59,7 +59,7 @@ export const StepThree = ({
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {interests.map(hobby => (
+          {Hobbies.map(hobby => (
             <button
               key={hobby.id}
               type="button"

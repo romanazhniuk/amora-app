@@ -1,0 +1,23 @@
+.apiStatus {
+  font-size: 14px;
+  line-height: 1.4;
+  opacity: 0.85;
+  margin: 0;
+  margin-top: 12px;
+
+  &[data-status='ok'] .apiStatus__dot {
+    color: #7bed9f;
+  }
+
+  &[data-status='error'] .apiStatus__dot {
+    color: #ff6b6b;
+  }
+
+  &[data-status='checking'] .apiStatus__dot {
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.apiStatus__dot {
+  margin-right: 4px;
+}

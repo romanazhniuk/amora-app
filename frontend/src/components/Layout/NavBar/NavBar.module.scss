@@ -1,0 +1,124 @@
+@use '@styles/utils' as u;
+
+.navbar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1920px;
+  margin: 0 auto;
+
+  padding: 5px 16px;
+
+  box-sizing: border-box;
+
+  &__logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+.header__burger {
+  display: none;
+  width: 36px;
+  height: 28px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  z-index: 100;
+
+  &_icon {
+    width: 18px;
+    height: 18px;;
+  }
+}
+
+.left_section, .right_section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.app_name {
+  text-align: center;
+  font-weight: 600;
+  font-size: 24px;
+  white-space: nowrap;
+  color: #fff;
+}
+
+.btn {
+  &_login {
+  background: transparent;
+  border: 1px solid white;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 20px;
+  cursor: pointer;
+
+}
+
+    &_signup {
+  background: white;
+  border: none;
+  color: #393857;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+}
+
+.lang_switcher {
+  width: 43px;
+  height: 22px;
+}
+
+.right_section {
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.header__mobile_menu {
+  position: absolute;
+  top: 124px; /* Висота вашого хедера */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 60px);
+  z-index: 1000; /* Дуже високий індекс */
+  background-color: linear-gradient(90deg, #908FF2 0%, #A2A1F2 46%, #D4D3FE 100%);
+}
+
+@include u.on-tablet {
+  .navbar {
+    padding: 20px 80px;
+  }
+}
+
+@include u.on-desktop {
+  .navbar {
+    padding: 40px 140px;
+  }
+}
+
+@media (max-width: 1105px) {
+  .navbar__actions {
+    display: none;
+  }
+
+  .header__burger {
+    display: block;
+  }
+
+  .header__mobile_menu {
+    display: flex;
+  }
+}

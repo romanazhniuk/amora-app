@@ -1,9 +1,6 @@
-import { useTranslation } from 'react-i18next';
 import { RegisterForm } from '../Register/RegisterForm';
 
 export const RegisterPage = () => {
-  const { t } = useTranslation();
-
   return (
     <div
       className="relative  w-full
@@ -11,16 +8,7 @@ export const RegisterPage = () => {
      font-sans overflow-hidden
     pt-5 lg:pt-10"
     >
-      <div
-        className="relative z-20 w-full
-      px-6 flex flex-col items-center"
-      >
-        <h1 className="text-3xl font-bold text-gray-100 mb-2 text-center">
-          {t('Register_welcome')}
-        </h1>
-        <p className="text-gray-60 text-sm mb-10 text-center leading-relaxed">
-          {t('Register_description')}
-        </p>
+      <div>
         <div className="absolute left-0 bottom-0 z-10 hidden lg:block">
           <img
             src="./icons/Logingit.svg"

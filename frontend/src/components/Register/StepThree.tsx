@@ -11,38 +11,48 @@ interface StepThreeProps {
   formData: FormData;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   toggleHobby: (hobbyId: string) => void;
+  errors: Record<string, string>;
 }
 
 export const StepThree = ({
   formData,
   handleChange,
   toggleHobby,
+  errors,
 }: StepThreeProps) => {
   const { t } = useTranslation();
-  const interests = [
-    { id: 'video_games', label: t('interests.video_games') },
-    { id: 'reading', label: t('interests.reading') },
-    { id: 'travel', label: t('interests.travel') },
-    { id: 'walking', label: t('interests.walking') },
-    { id: 'sport', label: t('interests.sport') },
-    { id: 'dancing', label: t('interests.dancing') },
-    { id: 'youtube', label: t('interests.youtube') },
-    { id: 'movies', label: t('interests.movies') },
-    { id: 'drawing', label: t('interests.drawing') },
-    { id: 'meditation', label: t('interests.meditation') },
+  const Hobbies = [
+    { id: 'video_games', label: t('Hobbies.video_games') },
+    { id: 'reading', label: t('Hobbies.reading') },
+    { id: 'travel', label: t('Hobbies.travel') },
+    { id: 'walking', label: t('Hobbies.walking') },
+    { id: 'sport', label: t('Hobbies.sport') },
+    { id: 'dancing', label: t('Hobbies.dancing') },
+    { id: 'youtube', label: t('Hobbies.youtube') },
+    { id: 'movies', label: t('Hobbies.movies') },
+    { id: 'drawing', label: t('Hobbies.drawing') },
+    { id: 'meditation', label: t('Hobbies.meditation') },
   ];
 
   return (
-    <div className="animate-in fade-in duration-500 w-full text-left">
-      {/* Поле: Місто */}
-      <div className="flex flex-col mb-8">
+    <div
+      className=" relative z-20 w-full max-w-120
+      px-6 flex flex-col items-center"
+    >
+      <h1 className="text-3xl font-bold text-gray-100 mb-2 text-center">
+        {t('Register_welcome')}
+      </h1>
+      <p className="text-gray-60 text-sm mb-10 text-center leading-relaxed">
+        {t('Register_description')}
+      </p>
+      <div className="w-full flex flex-col mb-8">
         <label className="text-sm font-medium text-gray-100 mb-2 ml-1">
-          Вкажіть ваше місто{' '}
+          {t('Register_your_city')}{' '}
         </label>
         <input
           type="text"
           name="city"
-          placeholder="Львів, Київ, Ужгород..."
+          placeholder={t('Register_cities')}
           onChange={handleChange}
           value={formData.city || ''}
           className="w-full h-12 px-5 rounded-full border
@@ -50,16 +60,13 @@ export const StepThree = ({
             focus:border-primary transition-all"
         />
       </div>
-      <div className="mb-8">
+      <div className="mb-8 w-full">
         <label className="block text-sm font-semibold text-gray-700 mb-1 ml-1">
-          Які ваші захоплення?{' '}
+          {t('Register_hobbies')}{' '}
         </label>
-        <p className="text-xs text-gray-40 mb-4 ml-1">
-          Можна обрати декілька варіантів
-        </p>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {interests.map(hobby => (
+        <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-3">
+          {Hobbies.map(hobby => (
             <button
               key={hobby.id}
               type="button"
@@ -75,6 +82,11 @@ export const StepThree = ({
             </button>
           ))}
         </div>
+        {errors.hobbies && (
+          <span className="text-red-500 text-xs mt-2 italic text-center">
+            {errors.hobbies}
+          </span>
+        )}
       </div>
     </div>
   );

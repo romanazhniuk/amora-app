@@ -21,7 +21,7 @@ i18n
       loadPath: '/locales/{{lng}}/{{ns}}.json',
     },
     defaultNS: 'translation',
-    ns: ['translation', 'tips'],
+    ns: ['translation', 'tips', 'quiz'],
   });
 
 export default i18n;

@@ -1,0 +1,227 @@
+{
+  "quiz": {
+    "header_title": "Next, you have 15 short questions ahead.",
+    "header_subtitle": "Answer honestly — there are no right or wrong answers here.",
+    "question_counter": "Question {{current}}/{{total}}",
+    "back_to_start": "← Back to start",
+    "next_question": "Next Question",
+    "finish_quiz": "Finish Quiz",
+    "q1": {
+      "title": "In a new situation, you usually:",
+      "options": {
+        "A": "First analyze what is happening",
+        "B": "Look at the people and atmosphere",
+        "C": "Take the initiative",
+        "D": "Think about how to get results faster",
+        "E": "Want everything to be calm",
+        "F": "Look for new opportunities"
+      }
+    },
+    "q2": {
+      "title": "In communication, you are usually:",
+      "options": {
+        "A": "Reserved, speaking to the point",
+        "B": "Easily find common ground",
+        "C": "Confident and direct",
+        "D": "Concise, without extra words",
+        "E": "Soft and friendly",
+        "F": "Lively, love interesting topics"
+      }
+    },
+    "q3": {
+      "title": "When you need to make a decision, you:",
+      "options": {
+        "A": "Gather facts and weigh everything",
+        "B": "Think about how it will affect others",
+        "C": "Decide quickly and take responsibility",
+        "D": "Choose what gives the best result",
+        "E": "Look for the safest option",
+        "F": "Choose what is interesting and promising"
+      }
+    },
+    "q4": {
+      "title": "What irritates you the most?",
+      "options": {
+        "A": "Chaos",
+        "B": "Indifference",
+        "C": "Indecisiveness",
+        "D": "Wasting time",
+        "E": "Conflicts",
+        "F": "Routine"
+      }
+    },
+    "q5": {
+      "title": "In a team, you more often:",
+      "options": {
+        "A": "Analyze and notice details",
+        "B": "Bring people together",
+        "C": "Lead others",
+        "D": "Push for results",
+        "E": "Support and smooth out tension",
+        "F": "Bring new ideas"
+      }
+    },
+    "q6": {
+      "title": "Your strength is:",
+      "options": {
+        "A": "Deep thinking",
+        "B": "Understanding people",
+        "C": "Decisiveness",
+        "D": "Productivity",
+        "E": "Reliability",
+        "F": "Creativity"
+      }
+    },
+    "q7": {
+      "title": "If something doesn't go according to plan, you:",
+      "options": {
+        "A": "Analyze where the mistake was",
+        "B": "Think about how it affected people",
+        "C": "Take control",
+        "D": "Immediately look for an effective solution",
+        "E": "Try to stay calm",
+        "F": "Look for a new approach"
+      }
+    },
+    "q8": {
+      "title": "What is most important to you?",
+      "options": {
+        "A": "Understanding",
+        "B": "Relationships",
+        "C": "Influence",
+        "D": "Results",
+        "E": "Harmony",
+        "F": "Freedom and growth"
+      }
+    },
+    "q9": {
+      "title": "In a new team, you:",
+      "options": {
+        "A": "Observe",
+        "B": "Quickly get to know others",
+        "C": "Take the initiative",
+        "D": "Immediately jump into tasks",
+        "E": "Act softly and cautiously",
+        "F": "Are interested in everything new"
+      }
+    },
+    "q10": {
+      "title": "What is closer to you?",
+      "options": {
+        "A": "Think first, then act",
+        "B": "Understand people first",
+        "C": "Lead the way",
+        "D": "Do what gives results",
+        "E": "Maintain peace",
+        "F": "Experiment"
+      }
+    },
+    "q11": {
+      "title": "Which of these is most like your growth area?",
+      "options": {
+        "A": "Thinking for too long",
+        "B": "Depending on others' opinions",
+        "C": "Sometimes being too blunt",
+        "D": "Putting too much pressure on myself",
+        "E": "Fearing conflicts",
+        "F": "Not always finishing what I start"
+      }
+    },
+    "q12": {
+      "title": "Which phrase resonates with you most?",
+      "options": {
+        "A": "It's important for me to understand the essence",
+        "B": "It's important for me to feel people",
+        "C": "I am ready to take responsibility",
+        "D": "Results are important to me",
+        "E": "Harmony is important to me",
+        "F": "I look for new opportunities and growth"
+      }
+    },
+    "q13": {
+      "title": "What comes most naturally to you?",
+      "options": {
+        "A": "Figuring out how things work and what the essence is",
+        "B": "Feeling people, establishing contact, and understanding the vibe",
+        "C": "Taking initiative, setting direction, and leading the way",
+        "D": "Focusing on the goal and bringing things to a result",
+        "E": "Maintaining harmony, stability, and comfort for everyone",
+        "F": "Searching for new opportunities, ideas, and unconventional solutions"
+      }
+    },
+    "q14": {
+      "title": "What gives you the most inner satisfaction?",
+      "options": {
+        "A": "When I understand everything, analyze it, and see the logic",
+        "B": "When there is warm contact, mutual understanding, and good interaction",
+        "C": "When I influence the situation and can lead others",
+        "D": "When I see concrete results and tangible progress",
+        "E": "When everything is calm, reliable, and without extra tension",
+        "F": "When there is novelty, growth, and the feeling of discovering something new"
+      }
+    },
+    "q15": {
+      "title": "When you are in your strongest state, you:",
+      "options": {
+        "A": "Think deeply, see details, and make thoughtful decisions",
+        "B": "Easily find an approach to people and build trust",
+        "C": "Take responsibility, make decisions, and lead others",
+        "D": "Act effectively, focused, and move towards results",
+        "E": "Support, soothe, and create a sense of reliability",
+        "F": "Generate ideas, open new paths, and inspire change"
+      }
+    }
+  },
+  "results": {
+    "loading": "AI is generating your personal result...",
+    "header_title": "AI is generating a personal result based on your answers.",
+    "header_subtitle": "This may take a few seconds.",
+    "badge": "Result",
+    "description_p1": "Results show that you tend to analyze situations deeply and often think not only about yourself but also about the people around you.",
+    "description_p2": "Our recommendations will help you better maintain emotional balance and find moments for recovery.",
+    "type_title": "Personality Type — {{title}}",
+    "type_subtitle": "Who are you?",
+    "strengths_title": "Strengths",
+    "strengths_subtitle": "What you are already good at",
+    "growth_title": "Growth Areas",
+    "growth_subtitle": "Everyone has room for growth"
+  },
+  "results_data": {
+    "A": {
+      "title": "Analyst",
+      "description": "You think deeply, logically, and consistently. You love understanding causes, seeing details, and making thoughtful decisions. In communication, you can be reserved, but your words are often precise and meaningful.",
+      "strengths": ["Logic", "Attention to detail", "Thoughtful decisions"],
+      "growth": ["Tendency to hesitate", "Over-analysis", "Reserved communication"]
+    },
+    "B": {
+      "title": "Communicator",
+      "description": "You sense people well, know how to build contact, and establish trust. You are open, lively, and friendly. Often, it's you who helps others understand each other better.",
+      "strengths": ["Empathy", "Ease of contact", "Relationship building"],
+      "growth": ["Dependence on others' opinions", "Avoiding awkward topics", "Putting others first"]
+    },
+    "C": {
+      "title": "Leader",
+      "description": "You are proactive, decisive, and naturally take responsibility. You see the direction, can organize others, and aren't afraid to act first. Your strength lies in influence.",
+      "strengths": ["Decisiveness", "Responsibility", "Leadership"],
+      "growth": ["Harshness", "Hastiness", "Ignoring others' emotions"]
+    },
+    "D": {
+      "title": "Achiever",
+      "description": "You are focused on results, efficiency, and progress. It's important for you to move forward and see practical sense in your actions. You know how to focus and get things done.",
+      "strengths": ["Productivity", "Purposefulness", "Focus on results"],
+      "growth": ["Self-pressure", "Impatience", "Difficulty resting"]
+    },
+    "E": {
+      "title": "Supporter",
+      "description": "You value harmony, stability, and comfort. You are soft, attentive, and reliable. People often feel calm and accepted around you.",
+      "strengths": ["Caring", "Reliability", "Supportive nature"],
+      "growth": ["Fear of conflict", "Difficulty saying 'no'", "Fear of change"]
+    },
+    "F": {
+      "title": "Explorer",
+      "description": "You love novelty, freedom, and growth. You enjoy experiments and unconventional solutions. You bring inspiration and a fresh vision to life.",
+      "strengths": ["Creativity", "Flexibility", "Openness to the new"],
+      "growth": ["Instability", "Unfinished tasks", "Loss of interest in routine"]
+    }
+  }
+}

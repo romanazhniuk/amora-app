@@ -1,35 +1,21 @@
 /* eslint-disable max-len */
 import { useTranslation } from 'react-i18next';
 
-interface UserProfile {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  ageRange: string;
-  interests?: string[];
-}
-
-type ProfileErrors = Partial<Record<keyof UserProfile, string>>;
-
-interface ProfileProps {
-  data: UserProfile;
-  updateProfile: (newData: Partial<UserProfile>) => void;
-  errors: ProfileErrors;
-}
+import { ProfileProps } from '../../types/test';
 
 export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
   const { t } = useTranslation();
-  const interests = [
-    { id: 'video_games', label: t('interests.video_games') },
-    { id: 'reading', label: t('interests.reading') },
-    { id: 'travel', label: t('interests.travel') },
-    { id: 'walking', label: t('interests.walking') },
-    { id: 'sport', label: t('interests.sport') },
-    { id: 'dancing', label: t('interests.dancing') },
-    { id: 'youtube', label: t('interests.youtube') },
-    { id: 'movies', label: t('interests.movies') },
-    { id: 'drawing', label: t('interests.drawing') },
-    { id: 'meditation', label: t('interests.meditation') },
+  const Hobbies = [
+    { id: 'video_games', label: t('Hobbies.video_games') },
+    { id: 'reading', label: t('Hobbies.reading') },
+    { id: 'travel', label: t('Hobbies.travel') },
+    { id: 'walking', label: t('Hobbies.walking') },
+    { id: 'sport', label: t('Hobbies.sport') },
+    { id: 'dancing', label: t('Hobbies.dancing') },
+    { id: 'youtube', label: t('Hobbies.youtube') },
+    { id: 'movies', label: t('Hobbies.movies') },
+    { id: 'drawing', label: t('Hobbies.drawing') },
+    { id: 'meditation', label: t('Hobbies.meditation') },
   ];
 
   const ageRanges = ['13-15', '16-18', '19-21', '22-25', '25-30', '31+'];
@@ -58,6 +44,7 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
           </label>
           <input
             type="firstName"
+            value={data.firstName}
             onChange={e => updateProfile({ firstName: e.target.value })}
             placeholder="John "
             className="w-full h-14 px-5  border-b border-gray-20
@@ -82,6 +69,8 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
           <input
             type="lastName"
             placeholder=" Wick"
+            value={data.lastName}
+            onChange={e => updateProfile({ lastName: e.target.value })}
             className="w-full h-14 px-5 border-b border-gray-20
              bg-white text-sm outline-none
               focus:border-primary transition-all placeholder:text-gray-30"
@@ -153,16 +142,16 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
         </label>
 
         <div className="flex flex-wrap gap-3">
-          {interests.map(item => {
-            const isSelected = data.interests?.includes(item.id);
+          {Hobbies.map(item => {
+            const isSelected = data.hobbies?.includes(item.id);
 
             const toggleInterest = () => {
-              const currentInterests = data.interests || [];
+              const currentInterests = data.hobbies || [];
               const newInterests = isSelected
                 ? currentInterests.filter(id => id !== item.id)
                 : [...currentInterests, item.id];
 
-              updateProfile({ interests: newInterests });
+              updateProfile({ hobbies: newInterests });
             };
 
             return (

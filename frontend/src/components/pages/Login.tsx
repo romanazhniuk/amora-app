@@ -2,12 +2,82 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, EyeOff } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import api from './../../api/axios';
 
 export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
 
+  const navigate = useNavigate();
   const { t } = useTranslation();
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const validate = () => {
+    const newErrors = { email: '', password: '' };
+    let isValid = true;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!formData.email) {
+      newErrors.email = t('Error_required_email');
+      isValid = false;
+    } else if (!emailRegex.test(formData.email)) {
+      newErrors.email = t('Error_invalid_email');
+      isValid = false;
+    }
+
+    if (!formData.password) {
+      newErrors.password = t('Error_required_password');
+      isValid = false;
+    } else if (formData.password.length < 8) {
+      newErrors.password = t('Error_password_too_short');
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+
+    return isValid;
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+
+    if (validate()) {
+      try {
+        const response = await api.post('/auth/login', {
+          email: formData.email,
+          password: formData.password,
+        });
+
+        const { token } = response.data;
+
+        localStorage.setItem('accessToken', token);
+
+        navigate('/');
+      } catch (error) {
+        // Обробка помилок від сервера (наприклад, невірний пароль)
+        const serverMessage = error.response?.data?.message || 'Login failed';
+
+        setErrors(prev => ({ ...prev, email: serverMessage }));
+      }
+    }
+  };
 
   return (
     <div
@@ -47,12 +117,16 @@ export const LoginPage = () => {
         <h1 className="text-3xl font-bold text-gray-100 mb-2 text-center">
           {t('Login_welcome')}
         </h1>
-        <p className="text-gray-60 text-sm mb-10 text-center leading-relaxed">
+        <p className="text-gray-60 text-sm mb-8 text-center leading-relaxed">
           {t('Login_description')}
         </p>
 
-        <form className="w-full flex flex-col">
-          <div className="flex flex-col mb-5">
+        <form
+          onSubmit={handleSubmit}
+          noValidate
+          className="w-full flex flex-col"
+        >
+          <div className="flex flex-col mb-2">
             <label
               htmlFor="email"
               className="text-sm font-medium
@@ -62,9 +136,21 @@ export const LoginPage = () => {
             </label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="example@gmail.com"
-              className="w-full h-14 px-5 rounded-full border border-gray-20 bg-white text-sm outline-none focus:border-primary transition-all placeholder:text-gray-30"
+              className={`w-full h-11.5 px-5 rounded-full border bg-white text-sm outline-none transition-all ${
+                errors.email
+                  ? 'border-error focus:border-red-600'
+                  : 'border-gray-20 focus:border-primary'
+              }`}
             />
+            {errors.email && (
+              <span className="text-red-500 text-xs mt-1 ml-4 italic">
+                {errors.email}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-col w-full max-w-md">
@@ -84,12 +170,22 @@ export const LoginPage = () => {
             </div>
             <div className="relative ">
               <input
+                name="password"
                 type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="Password"
-                className="w-full h-14 px-5 rounded-full border border-gray-20 bg-white text-sm outline-none focus:border-primary transition-all placeholder:text-gray-30"
+                className={`w-full h-11.5 px-5 rounded-full border bg-white text-sm outline-none transition-all ${
+                  errors.password
+                    ? 'border-error focus:border-red-600'
+                    : 'border-gray-20 focus:border-primary'
+                }`}
               />
+              {errors.password && (
+                <span className="text-red-500 text-xs mt-1 ml-4 italic absolute -bottom-5 left-0">
+                  {errors.password}
+                </span>
+              )}
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -105,54 +201,51 @@ export const LoginPage = () => {
           </div>
           <button
             type="submit"
-            onClick={() => setShowPassword(!showPassword)}
-            className="w-full mt-8 h-14 bg-primary-60 text-primary-dark-70 font-bold rounded-full mb-8 hover:bg-primary-80 transition-all"
+            className="w-full mt-6 h-11.5 bg-primary-60 text-primary-dark-70 font-bold rounded-full mb-4 hover:bg-primary-80 transition-all"
           >
             {t('Login_Log')}
           </button>
-          <div className="relative flex items-center justify-center mb-8">
-            <div className="absolute w-full h-0.5 bg-primary-70"></div>
-            <span className="relative z-10 bg-white px-4 text-base text-primary-dark font-medium">
-              {t('Login_Log_or')}
-            </span>
-          </div>
-          <div className="flex flex-col gap-3">
-            <button
-              type="button"
-              className="w-full h-14 flex items-center justify-center gap-3 border border-gray-10 rounded-full hover:bg-gray-10 transition-all text-sm font-medium"
-            >
-              <img
-                src="./icons/IconGhrom.svg"
-                alt="Google"
-                className="w-5 h-5"
-              />
-              {t('Login_gogle')}
-            </button>
-            <button
-              type="button"
-              className="w-full h-14 flex items-center justify-center gap-3 border border-gray-10 rounded-full hover:bg-gray-10  transition-all text-sm font-medium"
-            >
-              <img
-                src="./icons/Iconfacboock.svg"
-                alt="Facebook"
-                className="w-5 h-5"
-              />
-              {t('Login_faceboock')}
-            </button>
-          </div>
         </form>
 
-        <p className="mt-8 text-sm text-gray-80">
-          {t('Login_havent')}{' '}
-          <button className="font-bold text-gray-100 hover:underline ml-1">
-            {t('Login_register')}
+        <div className="w-full relative flex items-center justify-center mb-4">
+          <div className="absolute w-full h-0.5 bg-primary-70"></div>
+          <span className="relative z-10 bg-white px-4 text-base text-primary-dark font-medium">
+            {t('Login_Log_or')}
+          </span>
+        </div>
+        <div className="flex flex-row gap-4 justify-center w-full">
+          <button
+            type="button"
+            className="w-14 h-14 flex items-center justify-center border border-gray-10 rounded-full hover:bg-gray-10 transition-all shadow-sm shrink-0"
+          >
+            <img src="./icons/IconGhrom.svg" alt="Google" className="w-6 h-6" />
           </button>
-        </p>
-
-        <p className="mt-12 text-xs text-gray-60 text-center max-w-[320px] leading-relaxed">
-          {t('Login_description_1')}
-        </p>
+          <button
+            type="button"
+            className="w-14 h-14 flex items-center justify-center border border-gray-10 rounded-full hover:bg-gray-10 transition-all shadow-sm shrink-0"
+          >
+            <img
+              src="./icons/Iconfacboock.svg"
+              alt="Facebook"
+              className="w-6 h-6"
+            />
+          </button>
+        </div>
       </div>
+
+      <p className="mt-4 text-sm text-gray-80">
+        {t('Login_havent')}{' '}
+        <button
+          onClick={() => navigate('/register')}
+          className="font-bold text-gray-100 hover:underline ml-1"
+        >
+          {t('Login_register')}
+        </button>
+      </p>
+
+      <p className="mt-6 text-xs text-gray-60 text-center max-w-[320px] leading-relaxed">
+        {t('Login_description_1')}
+      </p>
     </div>
   );
 };

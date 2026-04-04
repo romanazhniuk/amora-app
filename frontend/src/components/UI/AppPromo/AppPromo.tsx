@@ -88,9 +88,9 @@ export const AppPromo: React.FC = () => {
                w-[110%] h-[110%] bg-indigo-50 rounded-[40px] -z-10
                lg:w-full lg:h-full lg:max-w-113"
         />
-        <div className="max-w-70 lg:max-w-100 z-10">
+        <div className="max-w-70 lg:max-w-250 z-10">
           <img
-            src="./img/Iphon.png"
+            src="./icons/ifon.svg"
             alt="Emora App Mockup"
             className="w-full h-auto object-contain drop-shadow-2xl mx-auto"
           />

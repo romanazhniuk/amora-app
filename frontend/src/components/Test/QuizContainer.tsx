@@ -1,41 +1,54 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Profile } from './Step1_Profile';
 import { Quiz } from './Step2_Quiz';
 import { Result } from './Step3_Result';
 import { Recommendations } from './Step4_Recommendations';
 import { QuizStepper } from './QuizStepper';
 import { FormNavigation } from './FormNavigation';
-
-interface UserProfile {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  ageRange: string;
-  hobbies: string[];
-}
-
-interface UserAssessment {
-  profile: UserProfile;
-  answers: string[];
-  finalScore: number;
-}
+import { useLocation } from 'react-router-dom';
+import { quizResultsData } from './quizResultsData';
+import { useNavigate } from 'react-router-dom';
+import { UserAssessment, UserProfile } from '../../types/test';
 
 type ProfileErrors = Partial<Record<keyof UserProfile, string>>;
 
 export const QuizContainer = () => {
   const [step, setStep] = useState(1);
   const [errors, setErrors] = useState<ProfileErrors>({});
-  const [quizResults, setQuizResults] = useState<UserAssessment>({
-    profile: {
-      firstName: '',
-      lastName: '',
-      gender: '',
-      ageRange: '',
-      hobbies: [],
-    },
-    answers: [],
-    finalScore: 0,
+  const navigate = useNavigate();
+  const [finalResult, setFinalResult] = useState<{
+    key: string;
+    data: (typeof quizResultsData)[keyof typeof quizResultsData];
+    allScores: Record<string, number>;
+  } | null>(null);
+  const [quizResults, setQuizResults] = useState<UserAssessment>(() => {
+    const saved = localStorage.getItem('my_quiz_data');
+
+    return saved
+      ? JSON.parse(saved)
+      : {
+          profile: {
+            firstName: '',
+            lastName: '',
+            gender: '',
+            ageRange: '',
+            hobbies: [],
+          },
+          answers: [],
+          finalScore: 0,
+        };
   });
+
+  useEffect(() => {
+    localStorage.setItem('my_quiz_data', JSON.stringify(quizResults));
+  }, [quizResults]);
+
+  const topOfTestRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Скролимо саме до цього елемента
+    topOfTestRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [step]);
 
   const validateStep1 = () => {
     const newErrors: ProfileErrors = {};
@@ -55,7 +68,6 @@ export const QuizContainer = () => {
 
     setErrors(newErrors);
 
-    // Повертає true, якщо об'єкт помилок порожній
     return Object.keys(newErrors).length === 0;
   };
 
@@ -69,10 +81,10 @@ export const QuizContainer = () => {
     }));
   };
 
-  const totalSteps = 4; // Ваша кількість кроків
+  const totalSteps = 4;
 
   const handleSubmit = () => {
-    alert('Дякуємо! Ваші результати збережено.');
+    navigate('/');
   };
 
   const nextStep = () => {
@@ -81,12 +93,12 @@ export const QuizContainer = () => {
 
       if (!isValid) {
         return;
-      } // Зупиняємо, якщо є помилки
+      }
     }
 
     if (step < totalSteps) {
       setStep(prev => prev + 1);
-      setErrors({}); // Скидаємо помилки при переході далі
+      setErrors({});
     } else {
       handleSubmit();
     }
@@ -96,14 +108,18 @@ export const QuizContainer = () => {
     if (step > 1) {
       setStep(prev => prev - 1);
     } else {
-      // Логіка для "На головну" (наприклад, редірект)
-      window.location.href = '/';
+      navigate('/');
     }
   };
 
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   const calculateSubProgress = () => {
     let filledFields = 0;
-    // Беремо дані з нашого стану
     const { profile } = quizResults;
 
     // 1. Ім'я
@@ -126,8 +142,52 @@ export const QuizContainer = () => {
 
   const subProgress = calculateSubProgress();
 
+  const calculateQuizResult = (answers: string[]) => {
+    // Створюємо об'єкт для збереження балів
+    const scores: Record<string, number> = {
+      A: 0,
+      B: 0,
+      C: 0,
+      D: 0,
+      E: 0,
+      F: 0,
+    };
+
+    answers.forEach((answer, index) => {
+      if (!answer) {
+        return;
+      }
+
+      const points = index >= 12 ? 2 : 1;
+
+      if (scores.hasOwnProperty(answer)) {
+        scores[answer] += points;
+      }
+    });
+
+    // Знаходимо ключ (A, B, C...) з найбільшою кількістю балів
+    const winnerKey = Object.keys(scores).reduce((a, b) =>
+      scores[a] > scores[b] ? a : b,
+    );
+
+    return {
+      key: winnerKey,
+      data: quizResultsData[winnerKey as keyof typeof quizResultsData],
+      allScores: scores, // на випадок, якщо захочете показати графік балів
+    };
+  };
+
+  const handleFinishQuiz = () => {
+    const result = calculateQuizResult(quizResults.answers);
+
+    setFinalResult(result); // Зберігаємо об'єкт результату
+    // Переходимо до екрана відображення
+    setStep(3);
+  };
+
   return (
     <div
+      ref={topOfTestRef}
       className="relative h-full w-full
      bg-white flex flex-col
      pl-4 pr-4 md:pl-6
@@ -178,8 +238,20 @@ export const QuizContainer = () => {
           )}
           {step === 2 && (
             <div>
-              {' '}
-              <Quiz />{' '}
+              <Quiz
+                answers={quizResults.answers}
+                updateAnswers={(newAnswers: string[]) =>
+                  setQuizResults(prev => ({ ...prev, answers: newAnswers }))
+                }
+                nextStep={nextStep}
+                prevStep={prevStep}
+                handleFinishQuiz={handleFinishQuiz}
+              />
+            </div>
+          )}
+          {step === 3 && finalResult && (
+            <div>
+              <Result resaltss={finalResult.data} />
               <FormNavigation
                 step={step}
                 totalSteps={totalSteps}
@@ -188,8 +260,18 @@ export const QuizContainer = () => {
               />
             </div>
           )}
-          {step === 3 && <Result />}
-          {step === 4 && <Recommendations />}
+          {step === 4 && (
+            <div>
+              {' '}
+              <Recommendations />{' '}
+              <FormNavigation
+                step={step}
+                totalSteps={totalSteps}
+                nextStep={nextStep}
+                prevStep={prevStep}
+              />
+            </div>
+          )}
         </form>
       </div>
     </div>

@@ -21,7 +21,7 @@
   "About_description_2" : "Our goal is to create a simple and accessible tool that helps users learn more about themselves, their emotions, and get useful recommendations to improve their well-being.",
   "About_description_3" : "If you want to support our project or offer cooperation, we will be happy to talk.",
   "Contact_us" : "Contact us",
-  "Mobile_application" : "Mobile application Emore App",
+  "Mobile_application" : "Mobile application Emora App",
   "AppPromo_description" : "We are creating an intelligent application that helps adolescents and young people better understand their psychological state. Using tests and analysis of responses, artificial intelligence generates personalized recommendations and offers useful resources for support.",
   "AppPromo_description_p_1" : "Take emotional assessments anytime, anywhere.",
   "AppPromo_description_p_2" : "Track your progress with detailed analytics.",
@@ -44,25 +44,21 @@
   "Login_description_1" : "Your personal data is protected and used in accordance with our privacy policy.",
   "team": {
     "members": {
-      "oleksandr_kovalenko": {
-        "name": "Oleksandr Kovalenko",
-        "role": "Project Founder",
-        "desc": "Initiator of the app creation and author of the core idea. Coordinates the project development."
+      "Chuchman_Oleksandr": {
+        "name": "Chuchman Oleksandr",
+        "role": "Director of Innovative Technologies",
+        "desc": "Initiator of the app creation and author of the core idea."
       },
-      "mariya_shevchuk": {
-        "name": "Mariya Shevchuk",
-        "role": "Analyst",
+      "Senyk_Bohdank": {
+        "name": "Senyk Bohdan",
+        "role": "Development Director",
         "desc": "Analyzes user needs and researches psychological approaches."
       },
-      "dmytro_bondar": {
-        "name": "Dmytro Bondar",
-        "role": "CTO",
-        "desc": "Responsible for technical development, system architecture, and features."
-      },
-      "iryna_melnyk": {
-        "name": "Iryna Melnyk",
-        "role": "UX/UI Designer",
-        "desc": "Creates a convenient and intuitive app interface for users."
+
+      "Shenger_Roman": {
+        "name": "Shenger Roman",
+        "role": "Design Director",
+        "desc": "Forming an overall style and product concept that meets the brand's goals."
       }
     }
   },
@@ -87,7 +83,7 @@
   "Addition" : "Addition",
   "Our_team" : "Our team",
   "Register_welcome" : "Create an account",
-  "Register_description" : "Join us to access all the features of the app.",
+  "Register_description" : "Join us today to unlock and enjoy all the exclusive features available in our application.",
   "Register_fullnameinput" : "First and Last Name*",
   "Register_fullname" : "John Wick",
   "Register_email" : "E-mail address*",
@@ -96,14 +92,18 @@
   "Register_or" : "Or register via",
   "Register_have" : "Do you already have an account?",
   "Register_sing" : "Sign in",
+  "Register_Date" : "Date of birth*",
   "Register_interests_label": "What are your hobbies? (optional)",
+  "Register_your_city" : "Enter your city (optional)",
+  "Register_hobbies" : "What are your hobbies? (optional)",
+  "Register_cities" : "Lviv, Kyiv, Uzhhorod...",
   "steps": {
     "personal_data": "Personal Data",
     "quiz": "Quiz Questions",
     "test_result": "Test Result",
     "recommendations": "Recommendations"
   },
-  "interests": {
+  "Hobbies": {
     "video_games": "Video Games",
     "reading": "Reading",
     "travel": "Travel",
@@ -125,6 +125,25 @@
   "Test_name" : "Name*" ,
   "Test_lastname" : "Last name (optional)" ,
   "Test_gender" : "Your gender*" ,
-  "Test_old" : "How old are you?*"
+  "Test_old" : "How old are you?*",
+  "Test_to_main" : "Back to Home ",
+  "Test_back" : "Back",
+  "Test_finish" : "Сomplete",
+  "Test_continue" : "Сontinue",
+  "Recomemendations_title" : "We have prepared a selection of recommendations for you that can help you better understand yourself and maintain emotional balance.",
+  "Recomemendations_Tips" : "Tips",
+  "Recomemendations_desc" : "Music can have a significant impact on our emotional state. Calm or inspiring compositions can help reduce stress, calm our thoughts, and create a sense of inner balance.",
+  "Recomemendations_desc1" : "Try spending a few minutes listening to music that makes you feel good or helps you relax.",
+"Error_required_fullName": "Please enter your full name",
+  "Error_required_email": "Email is required",
+  "Error_invalid_email": "Invalid email format",
+  "Error_required_password": "Password is required",
+  "Error_password_too_short": "Password must be at least 8 characters long",
+  "Error_required_confirm_password": "Please confirm your password",
+  "Error_passwords_do_not_match": "Passwords do not match",
+  "Error_required_birthDate": "Please select your birth date",
+  "Error_required_gender": "Please select your gender",
+  "Error_required_hobbies": "Please select at least one hobby",
+  "Error_max_hobbies_exceeded": "You can select a maximum of 5 hobbies"
 }
 

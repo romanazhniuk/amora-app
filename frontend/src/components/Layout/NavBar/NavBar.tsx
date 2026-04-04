@@ -1,9 +1,10 @@
-import Logo from '/img/Logo.png';
+import Logo from './../../../../public/icons/logo.svg';
+import LogoWhite from './../../../../public/icons/logoWhite.svg';
 import { MobileNav } from '../MobileNav';
 import { LanguageSwitcher } from './../../LanguageSwitcher/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 type NavBarProps = {
@@ -17,6 +18,7 @@ export const NavBar: React.FC<NavBarProps> = ({
   setIsMenuOpen,
   isLight,
 }) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const toggleMenu = () => {
@@ -44,9 +46,11 @@ export const NavBar: React.FC<NavBarProps> = ({
     >
       <div className="flex items-center gap-4">
         <div className="w-12 h-12">
-          <a href="/">
-            <img src={Logo} alt="Logo"></img>
-          </a>
+          <img
+            onClick={() => navigate('/')}
+            src={isLight ? Logo : LogoWhite}
+            alt="Logo"
+          />
         </div>
       </div>
 
@@ -55,7 +59,7 @@ export const NavBar: React.FC<NavBarProps> = ({
           isLight ? 'text-gray-100' : 'text-gray-0'
         }`}
       >
-        <a href="/">Emora App</a>
+        <div>Emora App</div>
       </div>
 
       <div className="flex items-center gap-4 whitespace-nowrap">

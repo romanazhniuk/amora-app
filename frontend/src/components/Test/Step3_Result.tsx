@@ -3,18 +3,7 @@ import { Check, Clock } from 'lucide-react';
 import Icon_tip from './../../../public/icons/rezalt_icon_tip.svg';
 import Icon_strong from './../../../public/icons/rezalt_icon_strong.svg';
 import Icon_stats from './../../../public/icons/rezalt_icon_stats.svg';
-
-// Імпортуємо інтерфейс для типізації пропсів
-export interface QuizResult {
-  titleKey: string;
-  descriptionKey: string;
-  strengthsKey: string;
-  growthKey: string;
-}
-
-interface ResultProps {
-  resaltss: QuizResult | null;
-}
+import { ResultProps } from '../../types/test';
 
 export const Result = ({ resaltss }: ResultProps) => {
   const { t } = useTranslation('quiz');
@@ -22,7 +11,7 @@ export const Result = ({ resaltss }: ResultProps) => {
   if (!resaltss) {
     return (
       <div
-        className="text-center p-20 bg-white rounded-[32px]
+        className="text-center p-20 bg-white rounded-4xl
       border border-gray-10"
       >
         <div className="animate-pulse flex flex-col items-center">

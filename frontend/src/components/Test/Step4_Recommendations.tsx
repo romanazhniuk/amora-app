@@ -6,22 +6,17 @@ export const Recommendations = () => {
 
   return (
     <div className="w-full py-12">
-      {/* Основний контейнер: у ряд на великих екранах, у колонку на мобільних */}
       <div
         className="flex flex-col lg:flex-row gap-12
       items-start justify-between"
       >
-        {/* ЛІВА ЧАСТИНА (Текст) */}
         <div className="flex flex-col gap-8 max-w-[540px] font-sans">
-          {/* Головний заголовок */}
           <h2
             className="text-[28px] md:text-[31px]
           font-bold text-[#1A1C1E] leading-[1.2] tracking-tight"
           >
             {t('Recomemendations_title')}
           </h2>
-
-          {/* Тег Поради */}
           <div
             className="inline-block bg-purple-50
            text-purple-600 px-4 py-1 rounded-full text-sm
@@ -30,7 +25,6 @@ export const Recommendations = () => {
             {t('Recomemendations_Tips')}
           </div>
 
-          {/* Основний текст */}
           <div
             className="flex flex-col gap-6 text-[#4A4D54]
            text-[17px] leading-[1.6]"
@@ -41,7 +35,6 @@ export const Recommendations = () => {
           </div>
         </div>
 
-        {/* ПРАВА ЧАСТИНА (Категорії та картки) */}
         <div className="w-full lg:flex-1">
           <RecommendationCards />
         </div>

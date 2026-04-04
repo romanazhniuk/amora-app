@@ -1,11 +1,5 @@
-export type ResultKey = 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
-
-export interface QuizResult {
-  titleKey: string;
-  descriptionKey: string;
-  strengthsKey: string;
-  growthKey: string;
-}
+import { ResultKey } from '../../types/test';
+import { QuizResult } from '../../types/test';
 
 export const quizResultsData: Record<ResultKey, QuizResult> = {
   A: {

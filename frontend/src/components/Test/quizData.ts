@@ -1,13 +1,4 @@
-export interface QuizOption {
-  id: string;
-  labelKey: string;
-}
-
-export interface QuizQuestion {
-  id: number;
-  questionKey: string;
-  options: QuizOption[];
-}
+import { QuizQuestion } from '../../types/test';
 
 export const quizQuestions: QuizQuestion[] = [
   {

@@ -3,13 +3,7 @@ import { useTranslation } from 'react-i18next'; // 1. Імпортуємо ху�
 import { quizQuestions } from './quizData';
 import { ChevronRight, Check } from 'lucide-react';
 
-interface QuizProps {
-  answers: string[];
-  updateAnswers: (newAnswers: string[]) => void;
-  nextStep: () => void;
-  prevStep: () => void;
-  handleFinishQuiz: (answers: string[]) => void;
-}
+import { QuizProps } from '../../types/test';
 
 export const Quiz = ({
   answers,

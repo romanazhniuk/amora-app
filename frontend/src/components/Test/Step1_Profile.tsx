@@ -1,21 +1,7 @@
 /* eslint-disable max-len */
 import { useTranslation } from 'react-i18next';
 
-interface UserProfile {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  ageRange: string;
-  interests?: string[];
-}
-
-type ProfileErrors = Partial<Record<keyof UserProfile, string>>;
-
-interface ProfileProps {
-  data: UserProfile;
-  updateProfile: (newData: Partial<UserProfile>) => void;
-  errors: ProfileErrors;
-}
+import { ProfileProps } from '../../types/test';
 
 export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
   const { t } = useTranslation();
@@ -157,15 +143,15 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
 
         <div className="flex flex-wrap gap-3">
           {Hobbies.map(item => {
-            const isSelected = data.interests?.includes(item.id);
+            const isSelected = data.hobbies?.includes(item.id);
 
             const toggleInterest = () => {
-              const currentInterests = data.interests || [];
+              const currentInterests = data.hobbies || [];
               const newInterests = isSelected
                 ? currentInterests.filter(id => id !== item.id)
                 : [...currentInterests, item.id];
 
-              updateProfile({ interests: newInterests });
+              updateProfile({ hobbies: newInterests });
             };
 
             return (

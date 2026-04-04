@@ -19,7 +19,7 @@ export const AboutSection: React.FC = () => {
   return (
     <section
       className="max-w-480 mx-auto
-     block about-section pt-30"
+     block about-section pt-55"
       id="target-component"
     >
       <div

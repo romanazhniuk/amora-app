@@ -8,20 +8,7 @@ import { FormNavigation } from './FormNavigation';
 import { useLocation } from 'react-router-dom';
 import { quizResultsData } from './quizResultsData';
 import { useNavigate } from 'react-router-dom';
-
-interface UserProfile {
-  firstName: string;
-  lastName: string;
-  gender: string;
-  ageRange: string;
-  hobbies: string[];
-}
-
-interface UserAssessment {
-  profile: UserProfile;
-  answers: string[];
-  finalScore: number;
-}
+import { UserAssessment, UserProfile } from '../../types/test';
 
 type ProfileErrors = Partial<Record<keyof UserProfile, string>>;
 

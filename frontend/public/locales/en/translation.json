@@ -83,7 +83,7 @@
   "Addition" : "Addition",
   "Our_team" : "Our team",
   "Register_welcome" : "Create an account",
-  "Register_description" : "Join us to access all the features of the app.",
+  "Register_description" : "Join us today to unlock and enjoy all the exclusive features available in our application.",
   "Register_fullnameinput" : "First and Last Name*",
   "Register_fullname" : "John Wick",
   "Register_email" : "E-mail address*",
@@ -92,7 +92,11 @@
   "Register_or" : "Or register via",
   "Register_have" : "Do you already have an account?",
   "Register_sing" : "Sign in",
+  "Register_Date" : "Date of birth*",
   "Register_interests_label": "What are your hobbies? (optional)",
+  "Register_your_city" : "Enter your city (optional)",
+  "Register_hobbies" : "What are your hobbies? (optional)",
+  "Register_cities" : "Lviv, Kyiv, Uzhhorod...",
   "steps": {
     "personal_data": "Personal Data",
     "quiz": "Quiz Questions",
@@ -129,6 +133,17 @@
   "Recomemendations_title" : "We have prepared a selection of recommendations for you that can help you better understand yourself and maintain emotional balance.",
   "Recomemendations_Tips" : "Tips",
   "Recomemendations_desc" : "Music can have a significant impact on our emotional state. Calm or inspiring compositions can help reduce stress, calm our thoughts, and create a sense of inner balance.",
-  "Recomemendations_desc1" : "Try spending a few minutes listening to music that makes you feel good or helps you relax."
+  "Recomemendations_desc1" : "Try spending a few minutes listening to music that makes you feel good or helps you relax.",
+"Error_required_fullName": "Please enter your full name",
+  "Error_required_email": "Email is required",
+  "Error_invalid_email": "Invalid email format",
+  "Error_required_password": "Password is required",
+  "Error_password_too_short": "Password must be at least 8 characters long",
+  "Error_required_confirm_password": "Please confirm your password",
+  "Error_passwords_do_not_match": "Passwords do not match",
+  "Error_required_birthDate": "Please select your birth date",
+  "Error_required_gender": "Please select your gender",
+  "Error_required_hobbies": "Please select at least one hobby",
+  "Error_max_hobbies_exceeded": "You can select a maximum of 5 hobbies"
 }
 

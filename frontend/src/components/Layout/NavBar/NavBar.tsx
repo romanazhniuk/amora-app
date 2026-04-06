@@ -1,7 +1,7 @@
 import styles from './NavBar.module.scss';
-import Logo from '/public/img/Logo.png';
-import burgerIcon from '/public/img/burger.png';
-import burgerIconClos from '/public/img/BurgerClos.png';
+import Logo from '/img/Logo.png';
+import burgerIcon from '/img/Burger.png';
+import burgerIconClos from '/img/BurgerClos.png';
 import { useState } from 'react';
 import { MobileNav } from '../MobileNav';
 import { LanguageSwitcher } from './../../LanguageSwitcher/LanguageSwitcher';

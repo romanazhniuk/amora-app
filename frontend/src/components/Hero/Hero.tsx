@@ -30,7 +30,7 @@ export const Hero: React.FC = () => {
         </div>
         <div className={styles.hero__illustration}>
           <div className={styles.hero__orbit}>
-            <img src="/public/img/Hero fon.png" alt="" />
+            <img src={`${import.meta.env.BASE_URL}img/Hero fon.png`} alt="" />
           </div>
         </div>
       </div>

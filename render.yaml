@@ -5,7 +5,7 @@ services:
     plan: free
     rootDir: backend
     buildCommand: ./build.sh
-    startCommand: gunicorn amora_backend.wsgi:application
+    startCommand: gunicorn --bind 0.0.0.0:$PORT amora_backend.wsgi:application
     healthCheckPath: /api/health/
     envVars:
       - key: PYTHON_VERSION
@@ -29,10 +29,10 @@ services:
   - type: web
     name: amora-frontend
     runtime: static
-    plan: free
     rootDir: frontend
     buildCommand: npm ci && npm run build
-    staticPublishPath: dist
+    # Relative to repository root (not rootDir). Build output is frontend/dist.
+    staticPublishPath: frontend/dist
     routes:
       - type: rewrite
         source: /*

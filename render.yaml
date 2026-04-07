@@ -1,3 +1,8 @@
+# Render allows only ONE free PostgreSQL database per account. If blueprint sync fails with
+# "cannot have more than one active free tier database", do not add a `databases:` block here.
+# Instead: use an existing Postgres on Render (Dashboard → your DB → copy Internal Database URL)
+# and set DATABASE_URL on amora-backend when the Blueprint prompts (sync: false).
+
 services:
   - type: web
     name: amora-backend
@@ -21,9 +26,7 @@ services:
       - key: CSRF_TRUSTED_ORIGINS
         value: https://amora-backend.onrender.com,https://amora-frontend.onrender.com
       - key: DATABASE_URL
-        fromDatabase:
-          name: amora-db
-          property: connectionString
+        sync: false
 
   # Static sites must use type: web + runtime: static (not type: static).
   - type: web
@@ -44,7 +47,3 @@ services:
         sync: false
       - key: CI
         value: "true"
-
-databases:
-  - name: amora-db
-    plan: free

@@ -1,5 +1,5 @@
 {
-  "homepage": "/amora-app/",
+  "homepage": "/",
   "name": "react-typescript-starter-pack",
   "version": "0.1.0",
   "type": "module",
@@ -54,7 +54,7 @@
     "format": "prettier --write './src/**/*.{ts,tsx}'",
     "lint": "npm run style-format && npm run format && npm run lint-js && npm run lint-css",
     "update": "mate-scripts update",
-    "postinstall": "npm run update && cypress verify",
+    "postinstall": "npm run update",
     "predeploy": "npm run build",
     "deploy": "mate-scripts deploy"
   },

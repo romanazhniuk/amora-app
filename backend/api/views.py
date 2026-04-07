@@ -16,6 +16,19 @@ class HealthView(APIView):
         return Response({'status': 'ok'})
 
 
+class RootView(APIView):
+    """Landing for `/` so browsers and uptime checks are not a generic 404."""
+
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response({
+            'service': 'amora-backend',
+            'docs': 'Use /api/… endpoints (no HTML at /).',
+            'health': '/api/health/',
+        })
+
+
 class MeView(APIView):
     permission_classes = [IsAuthenticated]
 

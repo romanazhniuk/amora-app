@@ -56,3 +56,7 @@ In **amora-frontend**:
 - Django uses PostgreSQL automatically when `DATABASE_URL` is present.
 - In production (`DEBUG=False`), CORS is restricted by `CORS_ALLOWED_ORIGINS`.
 - Static files are served by WhiteNoise.
+
+### Health check times out on deploy
+
+Render assigns a unique hostname like `your-service-xxxx.onrender.com`, not necessarily `your-service.onrender.com`. If `ALLOWED_HOSTS` does not match, Django returns **400 Disallowed Host** and the platform health check never succeeds. This project adds **`.onrender.com`** to `ALLOWED_HOSTS` automatically when `RENDER=true` (set by Render), so the default hostname works without manual copy/paste.

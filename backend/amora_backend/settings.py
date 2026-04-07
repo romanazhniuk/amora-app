@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 import dj_database_url
 from dotenv import load_dotenv
@@ -10,6 +11,19 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'change-me')
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',') if h.strip()]
+
+# Render gives each service a unique *.onrender.com hostname. A plain name like
+# amora-backend.onrender.com is wrong unless you add a custom domain — Django
+# would return 400 DisallowedHost and the platform health check would time out.
+if os.getenv('RENDER', '').lower() == 'true':
+    if '.onrender.com' not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append('.onrender.com')
+
+_render_external = os.getenv('RENDER_EXTERNAL_URL')
+if _render_external:
+    _host = urlparse(_render_external).hostname
+    if _host and _host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_host)
 
 INSTALLED_APPS = [
     'django.contrib.admin',

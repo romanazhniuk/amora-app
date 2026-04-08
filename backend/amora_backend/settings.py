@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from urllib.parse import urlparse
 
 import dj_database_url
 from dotenv import load_dotenv
@@ -10,6 +11,19 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = os.getenv('SECRET_KEY', 'change-me')
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '127.0.0.1,localhost').split(',') if h.strip()]
+
+# Render gives each service a unique *.onrender.com hostname. A plain name like
+# amora-backend.onrender.com is wrong unless you add a custom domain — Django
+# would return 400 DisallowedHost and the platform health check would time out.
+if os.getenv('RENDER', '').lower() == 'true':
+    if '.onrender.com' not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append('.onrender.com')
+
+_render_external = os.getenv('RENDER_EXTERNAL_URL')
+if _render_external:
+    _host = urlparse(_render_external).hostname
+    if _host and _host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_host)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -85,15 +99,28 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Origins for local frontend dev (e.g. React on :3000, Vite on :5173) when API runs with DEBUG=False
+# (e.g. Render). Merged into CORS_ALLOWED_ORIGINS so developers can call the deployed API from localhost.
+_LOCAL_DEV_BROWSER_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
+
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
     CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGINS = [
+    _cors_origins = [
         origin.strip()
         for origin in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
         if origin.strip()
     ]
+    for _o in _LOCAL_DEV_BROWSER_ORIGINS:
+        if _o not in _cors_origins:
+            _cors_origins.append(_o)
+    CORS_ALLOWED_ORIGINS = _cors_origins
 
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()

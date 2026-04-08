@@ -1,17 +1,8 @@
 @import "tailwindcss";
-@import "styly";
 
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.regular { font-weight: 400; }
-
-.medium { font-weight: 500; }
-
-.semibold { font-weight: 600; }
-
-.bold { font-weight: 700; }

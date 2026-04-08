@@ -99,15 +99,28 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Origins for local frontend dev (e.g. React on :3000, Vite on :5173) when API runs with DEBUG=False
+# (e.g. Render). Merged into CORS_ALLOWED_ORIGINS so developers can call the deployed API from localhost.
+_LOCAL_DEV_BROWSER_ORIGINS = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
+
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
     CORS_ALLOW_ALL_ORIGINS = False
-    CORS_ALLOWED_ORIGINS = [
+    _cors_origins = [
         origin.strip()
         for origin in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
         if origin.strip()
     ]
+    for _o in _LOCAL_DEV_BROWSER_ORIGINS:
+        if _o not in _cors_origins:
+            _cors_origins.append(_o)
+    CORS_ALLOWED_ORIGINS = _cors_origins
 
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()

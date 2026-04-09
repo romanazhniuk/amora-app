@@ -3,6 +3,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 import dj_database_url
+from corsheaders.defaults import default_headers
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -99,19 +100,40 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Origins for local frontend dev (e.g. React on :3000, Vite on :5173) when API runs with DEBUG=False
-# (e.g. Render). Merged into CORS_ALLOWED_ORIGINS so developers can call the deployed API from localhost.
+# Local browser dev (CRA :3000, Vite :5173, extra ports via env). Merged when API runs with DEBUG=False
+# (e.g. Render) so developers can call the deployed API from localhost.
 _LOCAL_DEV_BROWSER_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
     'http://localhost:5173',
     'http://127.0.0.1:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5174',
 ]
+for _extra in os.getenv('CORS_EXTRA_DEV_ORIGINS', '').split(','):
+    _extra = _extra.strip()
+    if _extra and _extra not in _LOCAL_DEV_BROWSER_ORIGINS:
+        _LOCAL_DEV_BROWSER_ORIGINS.append(_extra)
+
+# Preflight (OPTIONS) and non-simple requests: explicit headers/methods (django-cors-headers).
+CORS_ALLOW_HEADERS = list(default_headers)
+CORS_ALLOW_METHODS = (
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+)
+CORS_PREFLIGHT_MAX_AGE = 86400
 
 if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
+    # Cannot combine Allow-All with credentials=True per CORS spec; local dev uses JWT in header anyway.
+    CORS_ALLOW_CREDENTIALS = False
 else:
     CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOW_CREDENTIALS = True
     _cors_origins = [
         origin.strip()
         for origin in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')

@@ -22,6 +22,9 @@ services:
       # Optional override; settings.py also allows all *.onrender.com when RENDER=true
       - key: ALLOWED_HOSTS
         value: 127.0.0.1,localhost
+      # Comma-separated. Include every browser origin that calls this API (Render static, GitHub Pages, etc.).
+      # Local http://localhost:3000 and :5173 are added in settings.py automatically.
+      # Example with GitHub Pages: https://amora-frontend.onrender.com,https://YOURUSER.github.io
       - key: CORS_ALLOWED_ORIGINS
         value: https://amora-frontend.onrender.com
       - key: CSRF_TRUSTED_ORIGINS

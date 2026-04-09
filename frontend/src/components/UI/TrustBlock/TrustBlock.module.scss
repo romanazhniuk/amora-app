@@ -1,0 +1,40 @@
+.logos_container {
+  overflow: hidden;
+  padding: 40px 0;
+  position: relative;
+  width: 100%;
+}
+
+.logos_track {
+  display: flex;
+  width: calc(250px * 10);
+  animation: scroll-right 20s linear infinite;
+}
+
+.logo_item {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 50px;
+    object-fit: contain;
+    opacity: 0.6;
+    transition: 0.3s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+@keyframes scroll-right {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

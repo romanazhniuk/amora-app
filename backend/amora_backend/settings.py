@@ -1,4 +1,5 @@
 import os
+import re
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -143,6 +144,11 @@ else:
         if _o not in _cors_origins:
             _cors_origins.append(_o)
     CORS_ALLOWED_ORIGINS = _cors_origins
+    # GitHub Pages: origin is always https://<user>.github.io (no path). Avoids missing env typos
+    # and fixes teams without redeploying Render for each static URL.
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        re.compile(r'^https://[a-zA-Z0-9](?:[a-zA-Z0-9]|-(?=[a-zA-Z0-9])){0,38}\.github\.io\Z'),
+    ]
 
 CSRF_TRUSTED_ORIGINS = [
     origin.strip()

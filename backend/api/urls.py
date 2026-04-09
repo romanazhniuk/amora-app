@@ -5,8 +5,14 @@ from .views import HealthView, MeView, RegisterView
 
 urlpatterns = [
     path('health/', HealthView.as_view(), name='health'),
+    path('health', HealthView.as_view(), name='health_noslash'),
     path('auth/register/', RegisterView.as_view(), name='register'),
+    # No trailing slash: avoids 301 on POST/OPTIONS so CORS preflight still sees ACAO headers.
+    path('auth/register', RegisterView.as_view(), name='register_noslash'),
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/token', TokenObtainPairView.as_view(), name='token_obtain_pair_noslash'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('auth/token/refresh', TokenRefreshView.as_view(), name='token_refresh_noslash'),
     path('auth/me/', MeView.as_view(), name='me'),
+    path('auth/me', MeView.as_view(), name='me_noslash'),
 ]

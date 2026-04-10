@@ -9,6 +9,9 @@ urlpatterns = [
     path('auth/register/', RegisterView.as_view(), name='register'),
     # No trailing slash: avoids 301 on POST/OPTIONS so CORS preflight still sees ACAO headers.
     path('auth/register', RegisterView.as_view(), name='register_noslash'),
+    # Alias for frontend expecting /auth/login/ (same as SimpleJWT token obtain).
+    path('auth/login/', TokenObtainPairView.as_view(), name='token_login'),
+    path('auth/login', TokenObtainPairView.as_view(), name='token_login_noslash'),
     path('auth/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('auth/token', TokenObtainPairView.as_view(), name='token_obtain_pair_noslash'),
     path('auth/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

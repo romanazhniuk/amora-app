@@ -26,6 +26,9 @@ class RootView(APIView):
             'service': 'amora-backend',
             'docs': 'Use /api/… endpoints (no HTML at /).',
             'health': '/api/health/',
+            'login': '/api/auth/login/',
+            'login_jwt': '/api/auth/token/',
+            'register': '/api/auth/register/',
         })
 
 

@@ -5,11 +5,24 @@ from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+
+class PublicTokenObtainPairView(TokenObtainPairView):
+    """Obtain JWT; ignore invalid Bearer on this route (global axios interceptor)."""
+
+    authentication_classes = []
+
+
+class PublicTokenRefreshView(TokenRefreshView):
+    authentication_classes = []
 
 
 class HealthView(APIView):
     """Public endpoint so the SPA can verify Django is reachable (dev proxy or CORS)."""
 
+    # Skip JWT parsing: a stale/invalid Bearer token would fail before AllowAny is checked.
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def get(self, request):
@@ -19,6 +32,7 @@ class HealthView(APIView):
 class RootView(APIView):
     """Landing for `/` so browsers and uptime checks are not a generic 404."""
 
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def get(self, request):
@@ -44,6 +58,7 @@ class MeView(APIView):
 
 
 class RegisterView(APIView):
+    authentication_classes = []
     permission_classes = [AllowAny]
 
     def post(self, request):

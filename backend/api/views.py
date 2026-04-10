@@ -58,18 +58,18 @@ class MeView(APIView):
 
     def get(self, request):
         u = request.user
-        data = {
-            'id': u.id,
-            'username': u.username,
-            'email': u.email,
-            'lastName': u.last_name,
-        }
-        profile = UserProfile.objects.filter(user=u).first()
-        if profile is not None:
-            data['birthDate'] = profile.birth_date.isoformat() if profile.birth_date else None
-            data['gender'] = profile.gender
-            data['hobbies'] = profile.hobbies
-        return Response(data)
+        profile, _ = UserProfile.objects.get_or_create(user=u)
+        return Response(
+            {
+                'id': u.id,
+                'username': u.username,
+                'email': u.email,
+                'lastName': u.last_name or '',
+                'birthDate': profile.birth_date.isoformat() if profile.birth_date else None,
+                'gender': profile.gender or '',
+                'hobbies': profile.hobbies or '',
+            },
+        )
 
 
 class RegisterView(APIView):

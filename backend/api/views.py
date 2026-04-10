@@ -1,5 +1,9 @@
+import json
+
 from django.contrib.auth.models import User
 from django.db import IntegrityError
+from django.db.models import Q
+from django.utils.dateparse import parse_date, parse_datetime
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -7,6 +11,8 @@ from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
+from .models import UserProfile
 
 
 class PublicTokenObtainPairView(TokenObtainPairView):
@@ -51,43 +57,93 @@ class MeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        return Response({
-            'id': request.user.id,
-            'username': request.user.username,
-            'email': request.user.email,
-        })
+        u = request.user
+        data = {
+            'id': u.id,
+            'username': u.username,
+            'email': u.email,
+            'lastName': u.last_name,
+        }
+        profile = UserProfile.objects.filter(user=u).first()
+        if profile is not None:
+            data['birthDate'] = profile.birth_date.isoformat() if profile.birth_date else None
+            data['gender'] = profile.gender
+            data['hobbies'] = profile.hobbies
+        return Response(data)
 
 
 class RegisterView(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
 
+    @staticmethod
+    def _parse_birth_date(raw):
+        if raw in (None, ''):
+            return None
+        if isinstance(raw, str):
+            d = parse_date(raw[:10] if len(raw) >= 10 else raw)
+            if d:
+                return d
+            dt = parse_datetime(raw)
+            if dt:
+                return dt.date()
+        return None
+
+    @staticmethod
+    def _hobbies_to_text(raw):
+        if raw in (None, ''):
+            return ''
+        if isinstance(raw, list):
+            return json.dumps(raw, ensure_ascii=False)
+        return str(raw)
+
     def post(self, request):
-        username = (request.data.get('username') or '').strip()
         password = request.data.get('password') or ''
         email = (request.data.get('email') or '').strip()
+        username = (request.data.get('username') or '').strip()
 
+        # Email is the canonical identifier; username defaults to email so clients need not duplicate.
+        if not email:
+            raise ValidationError({'email': ['This field is required.']})
         if not username:
-            raise ValidationError({'username': ['This field is required.']})
+            username = email
+
         if not password:
             raise ValidationError({'password': ['This field is required.']})
         if len(password) < 8:
             raise ValidationError({'password': ['Password must be at least 8 characters long.']})
-        if User.objects.filter(username=username).exists():
-            raise ValidationError({'username': ['A user with that username already exists.']})
-        if email and User.objects.filter(email__iexact=email).exists():
-            raise ValidationError({'email': ['A user with this email is already registered.']})
+
+        if User.objects.filter(Q(username=username) | Q(email__iexact=email)).exists():
+            raise ValidationError(
+                {'detail': 'A user with this email or username is already registered.'},
+            )
+
+        last_name = (request.data.get('lastName') or '').strip()[:150]
+        birth_date = self._parse_birth_date(request.data.get('birthDate'))
+        if request.data.get('birthDate') not in (None, '') and birth_date is None:
+            raise ValidationError({'birthDate': ['Invalid date. Use YYYY-MM-DD or ISO-8601.']})
+
+        gender = (request.data.get('gender') or '').strip()[:64]
+        hobbies = self._hobbies_to_text(request.data.get('hobbies'))[:4000]
 
         try:
             user = User.objects.create_user(
                 username=username,
                 password=password,
                 email=email,
+                last_name=last_name or '',
             )
         except IntegrityError:
             raise ValidationError(
                 {'detail': 'Registration failed: username or email is already in use.'},
             ) from None
+
+        UserProfile.objects.create(
+            user=user,
+            birth_date=birth_date,
+            gender=gender,
+            hobbies=hobbies,
+        )
         refresh = RefreshToken.for_user(user)
 
         return Response(
@@ -96,6 +152,10 @@ class RegisterView(APIView):
                     'id': user.id,
                     'username': user.username,
                     'email': user.email,
+                    'lastName': user.last_name,
+                    'birthDate': birth_date.isoformat() if birth_date else None,
+                    'gender': gender,
+                    'hobbies': hobbies,
                 },
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),

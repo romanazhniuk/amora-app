@@ -5,6 +5,13 @@ from rest_framework.response import Response
 from rest_framework.serializers import ValidationError
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from .serializers import EmailOrUsernameTokenObtainPairSerializer
+
+
+class LoginTokenView(TokenObtainPairView):
+    serializer_class = EmailOrUsernameTokenObtainPairSerializer
 
 
 class HealthView(APIView):

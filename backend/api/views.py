@@ -2,7 +2,6 @@ import json
 
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.db.models import Q
 from django.utils.dateparse import parse_date, parse_datetime
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -13,12 +12,30 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .models import UserProfile
+from .serializers import EmailAwareTokenObtainPairSerializer
+
+
+def _username_from_email(email: str) -> str:
+    """Stable Django username for auth; derived from email (unique)."""
+    base = email.strip().lower()[:150]
+    if not base:
+        return ''
+    if not User.objects.filter(username=base).exists():
+        return base
+    n = 1
+    while True:
+        suffix = f'+{n}'
+        candidate = f'{base[: 150 - len(suffix)]}{suffix}'
+        if not User.objects.filter(username=candidate).exists():
+            return candidate
+        n += 1
 
 
 class PublicTokenObtainPairView(TokenObtainPairView):
     """Obtain JWT; ignore invalid Bearer on this route (global axios interceptor)."""
 
     authentication_classes = []
+    serializer_class = EmailAwareTokenObtainPairSerializer
 
 
 class PublicTokenRefreshView(TokenRefreshView):
@@ -64,6 +81,7 @@ class MeView(APIView):
                 'id': u.id,
                 'username': u.username,
                 'email': u.email,
+                'fullName': profile.full_name or '',
                 'lastName': u.last_name or '',
                 'birthDate': profile.birth_date.isoformat() if profile.birth_date else None,
                 'gender': profile.gender or '',
@@ -100,23 +118,24 @@ class RegisterView(APIView):
     def post(self, request):
         password = request.data.get('password') or ''
         email = (request.data.get('email') or '').strip()
-        username = (request.data.get('username') or '').strip()
+        raw_username = (request.data.get('username') or '').strip()
 
-        # Email is the canonical identifier; username defaults to email so clients need not duplicate.
         if not email:
             raise ValidationError({'email': ['This field is required.']})
-        if not username:
-            username = email
 
         if not password:
             raise ValidationError({'password': ['This field is required.']})
         if len(password) < 8:
             raise ValidationError({'password': ['Password must be at least 8 characters long.']})
 
-        if User.objects.filter(Q(username=username) | Q(email__iexact=email)).exists():
+        if User.objects.filter(email__iexact=email).exists():
             raise ValidationError(
-                {'detail': 'A user with this email or username is already registered.'},
+                {'detail': 'A user with this email is already registered.'},
             )
+
+        full_name = (request.data.get('fullName') or '').strip()[:255]
+        if not full_name and raw_username and '@' not in raw_username:
+            full_name = raw_username[:255]
 
         last_name = (request.data.get('lastName') or '').strip()[:150]
         birth_date = self._parse_birth_date(request.data.get('birthDate'))
@@ -126,21 +145,26 @@ class RegisterView(APIView):
         gender = (request.data.get('gender') or '').strip()[:64]
         hobbies = self._hobbies_to_text(request.data.get('hobbies'))[:4000]
 
+        uname = _username_from_email(email)
+        if not uname:
+            raise ValidationError({'email': ['Invalid email.']})
+
         try:
             user = User.objects.create_user(
-                username=username,
+                username=uname,
                 password=password,
                 email=email,
                 last_name=last_name or '',
             )
         except IntegrityError:
             raise ValidationError(
-                {'detail': 'Registration failed: username or email is already in use.'},
+                {'detail': 'Registration failed: email is already in use.'},
             ) from None
 
         UserProfile.objects.create(
             user=user,
             birth_date=birth_date,
+            full_name=full_name,
             gender=gender,
             hobbies=hobbies,
         )
@@ -152,6 +176,7 @@ class RegisterView(APIView):
                     'id': user.id,
                     'username': user.username,
                     'email': user.email,
+                    'fullName': full_name,
                     'lastName': user.last_name,
                     'birthDate': birth_date.isoformat() if birth_date else None,
                     'gender': gender,

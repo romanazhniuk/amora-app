@@ -9,6 +9,7 @@ class UserProfile(models.Model):
         related_name='profile',
     )
     birth_date = models.DateField(null=True, blank=True)
+    full_name = models.CharField(max_length=255, blank=True)
     gender = models.CharField(max_length=64, blank=True)
     hobbies = models.TextField(blank=True)
 

@@ -10,7 +10,7 @@
 
 ## Auth endpoints
 
-- `POST /api/auth/token/` (body: `email` + `password`, or `username` + `password`)
+- `POST /api/auth/token/` and `POST /api/auth/login/` — body: **`email`** + **`password`** (legacy: `username` may be sent instead of `email` if it looks like an email)
 - `POST /api/auth/token/refresh/`
 - `GET /api/auth/me/`
 

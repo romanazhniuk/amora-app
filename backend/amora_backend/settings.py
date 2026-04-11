@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -73,12 +74,14 @@ WSGI_APPLICATION = 'amora_backend.wsgi.application'
 ASGI_APPLICATION = 'amora_backend.asgi.application'
 
 DATABASE_URL = os.getenv('DATABASE_URL')
-# Render web disks are ephemeral: SQLite would be recreated empty on every deploy/restart.
-if os.getenv('RENDER', '').lower() == 'true' and not DATABASE_URL:
+# Build runs `collectstatic` before runtime env is always available; `fromDatabase` may be
+# missing during build. Allow that command to load settings with SQLite; gunicorn/migrate still require Postgres.
+_collectstatic = 'collectstatic' in sys.argv
+if os.getenv('RENDER', '').lower() == 'true' and not DATABASE_URL and not _collectstatic:
     raise ImproperlyConfigured(
-        'DATABASE_URL is required on Render. Link a PostgreSQL database and set DATABASE_URL '
-        '(Dashboard → amora-backend → Environment). Without it Django falls back to SQLite '
-        'and user data disappears after redeploys.'
+        'DATABASE_URL is required on Render. Link PostgreSQL and set DATABASE_URL '
+        '(Blueprint fromDatabase or Dashboard → Environment). Without it Django uses ephemeral '
+        'SQLite and user data disappears after redeploys.'
     )
 
 if DATABASE_URL:

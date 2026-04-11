@@ -12,7 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .models import UserProfile
-from .serializers import EmailAwareTokenObtainPairSerializer
+from .serializers import EmailOnlyTokenObtainPairSerializer
 
 
 def _username_from_email(email: str) -> str:
@@ -35,7 +35,7 @@ class PublicTokenObtainPairView(TokenObtainPairView):
     """Obtain JWT; ignore invalid Bearer on this route (global axios interceptor)."""
 
     authentication_classes = []
-    serializer_class = EmailAwareTokenObtainPairSerializer
+    serializer_class = EmailOnlyTokenObtainPairSerializer
 
 
 class PublicTokenRefreshView(TokenRefreshView):

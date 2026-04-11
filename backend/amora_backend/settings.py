@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 import dj_database_url
 from corsheaders.defaults import default_headers
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
@@ -72,6 +73,14 @@ WSGI_APPLICATION = 'amora_backend.wsgi.application'
 ASGI_APPLICATION = 'amora_backend.asgi.application'
 
 DATABASE_URL = os.getenv('DATABASE_URL')
+# Render web disks are ephemeral: SQLite would be recreated empty on every deploy/restart.
+if os.getenv('RENDER', '').lower() == 'true' and not DATABASE_URL:
+    raise ImproperlyConfigured(
+        'DATABASE_URL is required on Render. Link a PostgreSQL database and set DATABASE_URL '
+        '(Dashboard → amora-backend → Environment). Without it Django falls back to SQLite '
+        'and user data disappears after redeploys.'
+    )
+
 if DATABASE_URL:
     DATABASES = {
         'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=True),

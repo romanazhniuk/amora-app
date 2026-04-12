@@ -133,11 +133,19 @@ class RegisterView(APIView):
                 {'detail': 'A user with this email is already registered.'},
             )
 
-        full_name = (request.data.get('fullName') or '').strip()[:255]
-        if not full_name and raw_username and '@' not in raw_username:
+        full_name = (request.data.get('fullName') or request.data.get('full_name') or '').strip()[:255]
+        first_name_in = (request.data.get('firstName') or request.data.get('firstname') or '').strip()[:150]
+        last_name = (
+            request.data.get('lastName') or request.data.get('lastname') or ''
+        ).strip()[:150]
+        if not full_name and first_name_in and last_name:
+            full_name = f'{first_name_in} {last_name}'.strip()[:255]
+        elif not full_name and first_name_in:
+            full_name = first_name_in[:255]
+        elif not full_name and last_name:
+            full_name = last_name[:255]
+        elif not full_name and raw_username and '@' not in raw_username:
             full_name = raw_username[:255]
-
-        last_name = (request.data.get('lastName') or '').strip()[:150]
         birth_date = self._parse_birth_date(request.data.get('birthDate'))
         if request.data.get('birthDate') not in (None, '') and birth_date is None:
             raise ValidationError({'birthDate': ['Invalid date. Use YYYY-MM-DD or ISO-8601.']})

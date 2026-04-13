@@ -1,10 +1,8 @@
 import json
 
 from django.contrib.auth.models import User
-from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError as DjangoValidationError
-from django.db import DatabaseError, IntegrityError, transaction
-from django.db.utils import ProgrammingError
+from django.db import IntegrityError
 from django.utils.dateparse import parse_date, parse_datetime
 from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -16,18 +14,6 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .models import UserProfile
 from .serializers import EmailOnlyTokenObtainPairSerializer
-
-
-def _drf_validation_from_django_password_error(exc: DjangoValidationError) -> ValidationError:
-    """DRF JSON must get plain str messages (lazy proxies can break rendering)."""
-    msgs: list[str] = []
-    if getattr(exc, 'error_list', None):
-        msgs = [str(e) for e in exc.error_list]
-    elif getattr(exc, 'messages', None) is not None:
-        msgs = [str(m) for m in exc.messages]
-    if not msgs:
-        msgs = [str(exc)]
-    return ValidationError({'password': msgs})
 
 
 def _username_from_email(email: str) -> str:
@@ -172,52 +158,35 @@ class RegisterView(APIView):
         if not uname:
             raise ValidationError({'email': ['Invalid email.']})
 
-        provisional = User(
-            username=uname,
-            email=email,
-            last_name=last_name or '',
-        )
         try:
-            validate_password(password, user=provisional)
+            user = User.objects.create_user(
+                username=uname,
+                password=password,
+                email=email,
+                last_name=last_name or '',
+            )
         except DjangoValidationError as exc:
-            raise _drf_validation_from_django_password_error(exc) from exc
-
-        try:
-            with transaction.atomic():
-                user = User.objects.create_user(
-                    username=uname,
-                    password=password,
-                    email=email,
-                    last_name=last_name or '',
-                )
-                UserProfile.objects.create(
-                    user=user,
-                    birth_date=birth_date,
-                    full_name=full_name,
-                    gender=gender,
-                    hobbies=hobbies,
-                )
-        except DjangoValidationError as exc:
-            raise _drf_validation_from_django_password_error(exc) from exc
+            # Django auth validators (common password, all-numeric, etc.) — must be 400, not 500.
+            msgs = getattr(exc, 'messages', None) or [str(exc)]
+            raise ValidationError({'password': list(msgs)}) from exc
         except IntegrityError:
             raise ValidationError(
                 {'detail': 'Registration failed: email is already in use.'},
             ) from None
-        except ProgrammingError:
-            return Response(
-                {
-                    'detail': (
-                        'Database schema is missing required tables or columns. '
-                        'On the server run: python manage.py migrate'
-                    ),
-                },
-                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+
+        try:
+            UserProfile.objects.create(
+                user=user,
+                birth_date=birth_date,
+                full_name=full_name,
+                gender=gender,
+                hobbies=hobbies,
             )
-        except DatabaseError:
-            return Response(
-                {'detail': 'Database error during registration. Please try again in a moment.'},
-                status=status.HTTP_503_SERVICE_UNAVAILABLE,
-            )
+        except IntegrityError:
+            user.delete()
+            raise ValidationError(
+                {'detail': 'Registration failed: could not create profile.'},
+            ) from None
 
         refresh = RefreshToken.for_user(user)
 

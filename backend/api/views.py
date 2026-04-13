@@ -30,6 +30,18 @@ def _drf_validation_from_django_password_error(exc: DjangoValidationError) -> Va
     return ValidationError({'password': msgs})
 
 
+def _db_unavailable_response():
+    return Response(
+        {
+            'detail': (
+                'Database is unavailable or schema is not migrated. '
+                'On the server run: python manage.py migrate'
+            ),
+        },
+        status=status.HTTP_503_SERVICE_UNAVAILABLE,
+    )
+
+
 def _username_from_email(email: str) -> str:
     """Stable Django username for auth; derived from email (unique)."""
     base = email.strip().lower()[:150]
@@ -51,6 +63,12 @@ class PublicTokenObtainPairView(TokenObtainPairView):
 
     authentication_classes = []
     serializer_class = EmailOnlyTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        try:
+            return super().post(request, *args, **kwargs)
+        except (ProgrammingError, DatabaseError):
+            return _db_unavailable_response()
 
 
 class PublicTokenRefreshView(TokenRefreshView):
@@ -89,20 +107,23 @@ class MeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        u = request.user
-        profile, _ = UserProfile.objects.get_or_create(user=u)
-        return Response(
-            {
-                'id': u.id,
-                'username': u.username,
-                'email': u.email,
-                'fullName': profile.full_name or '',
-                'lastName': u.last_name or '',
-                'birthDate': profile.birth_date.isoformat() if profile.birth_date else None,
-                'gender': profile.gender or '',
-                'hobbies': profile.hobbies or '',
-            },
-        )
+        try:
+            u = request.user
+            profile, _ = UserProfile.objects.get_or_create(user=u)
+            return Response(
+                {
+                    'id': u.id,
+                    'username': u.username,
+                    'email': u.email,
+                    'fullName': profile.full_name or '',
+                    'lastName': u.last_name or '',
+                    'birthDate': profile.birth_date.isoformat() if profile.birth_date else None,
+                    'gender': profile.gender or '',
+                    'hobbies': profile.hobbies or '',
+                },
+            )
+        except (ProgrammingError, DatabaseError):
+            return _db_unavailable_response()
 
 
 class RegisterView(APIView):
@@ -131,110 +152,98 @@ class RegisterView(APIView):
         return str(raw)
 
     def post(self, request):
-        password = request.data.get('password') or ''
-        email = (request.data.get('email') or '').strip()
-        raw_username = (request.data.get('username') or '').strip()
+        try:
+            password = request.data.get('password') or ''
+            email = (request.data.get('email') or '').strip()
+            raw_username = (request.data.get('username') or '').strip()
 
-        if not email:
-            raise ValidationError({'email': ['This field is required.']})
+            if not email:
+                raise ValidationError({'email': ['This field is required.']})
 
-        if not password:
-            raise ValidationError({'password': ['This field is required.']})
-        if len(password) < 8:
-            raise ValidationError({'password': ['Password must be at least 8 characters long.']})
+            if not password:
+                raise ValidationError({'password': ['This field is required.']})
+            if len(password) < 8:
+                raise ValidationError({'password': ['Password must be at least 8 characters long.']})
 
-        if User.objects.filter(email__iexact=email).exists():
-            raise ValidationError(
-                {'detail': 'A user with this email is already registered.'},
+            if User.objects.filter(email__iexact=email).exists():
+                raise ValidationError(
+                    {'detail': 'A user with this email is already registered.'},
+                )
+
+            full_name = (request.data.get('fullName') or request.data.get('full_name') or '').strip()[:255]
+            first_name_in = (request.data.get('firstName') or request.data.get('firstname') or '').strip()[:150]
+            last_name = (
+                request.data.get('lastName') or request.data.get('lastname') or ''
+            ).strip()[:150]
+            if not full_name and first_name_in and last_name:
+                full_name = f'{first_name_in} {last_name}'.strip()[:255]
+            elif not full_name and first_name_in:
+                full_name = first_name_in[:255]
+            elif not full_name and last_name:
+                full_name = last_name[:255]
+            elif not full_name and raw_username and '@' not in raw_username:
+                full_name = raw_username[:255]
+            birth_date = self._parse_birth_date(request.data.get('birthDate'))
+            if request.data.get('birthDate') not in (None, '') and birth_date is None:
+                raise ValidationError({'birthDate': ['Invalid date. Use YYYY-MM-DD or ISO-8601.']})
+
+            gender = (request.data.get('gender') or '').strip()[:64]
+            hobbies = self._hobbies_to_text(request.data.get('hobbies'))[:4000]
+
+            uname = _username_from_email(email)
+            if not uname:
+                raise ValidationError({'email': ['Invalid email.']})
+
+            provisional = User(
+                username=uname,
+                email=email,
+                last_name=last_name or '',
             )
+            try:
+                validate_password(password, user=provisional)
+            except DjangoValidationError as exc:
+                raise _drf_validation_from_django_password_error(exc) from exc
 
-        full_name = (request.data.get('fullName') or request.data.get('full_name') or '').strip()[:255]
-        first_name_in = (request.data.get('firstName') or request.data.get('firstname') or '').strip()[:150]
-        last_name = (
-            request.data.get('lastName') or request.data.get('lastname') or ''
-        ).strip()[:150]
-        if not full_name and first_name_in and last_name:
-            full_name = f'{first_name_in} {last_name}'.strip()[:255]
-        elif not full_name and first_name_in:
-            full_name = first_name_in[:255]
-        elif not full_name and last_name:
-            full_name = last_name[:255]
-        elif not full_name and raw_username and '@' not in raw_username:
-            full_name = raw_username[:255]
-        birth_date = self._parse_birth_date(request.data.get('birthDate'))
-        if request.data.get('birthDate') not in (None, '') and birth_date is None:
-            raise ValidationError({'birthDate': ['Invalid date. Use YYYY-MM-DD or ISO-8601.']})
+            try:
+                with transaction.atomic():
+                    user = User.objects.create_user(
+                        username=uname,
+                        password=password,
+                        email=email,
+                        last_name=last_name or '',
+                    )
+                    UserProfile.objects.create(
+                        user=user,
+                        birth_date=birth_date,
+                        full_name=full_name,
+                        gender=gender,
+                        hobbies=hobbies,
+                    )
+            except DjangoValidationError as exc:
+                raise _drf_validation_from_django_password_error(exc) from exc
+            except IntegrityError:
+                raise ValidationError(
+                    {'detail': 'Registration failed: email is already in use.'},
+                ) from None
 
-        gender = (request.data.get('gender') or '').strip()[:64]
-        hobbies = self._hobbies_to_text(request.data.get('hobbies'))[:4000]
+            refresh = RefreshToken.for_user(user)
 
-        uname = _username_from_email(email)
-        if not uname:
-            raise ValidationError({'email': ['Invalid email.']})
-
-        provisional = User(
-            username=uname,
-            email=email,
-            last_name=last_name or '',
-        )
-        try:
-            validate_password(password, user=provisional)
-        except DjangoValidationError as exc:
-            raise _drf_validation_from_django_password_error(exc) from exc
-
-        try:
-            with transaction.atomic():
-                user = User.objects.create_user(
-                    username=uname,
-                    password=password,
-                    email=email,
-                    last_name=last_name or '',
-                )
-                UserProfile.objects.create(
-                    user=user,
-                    birth_date=birth_date,
-                    full_name=full_name,
-                    gender=gender,
-                    hobbies=hobbies,
-                )
-        except DjangoValidationError as exc:
-            raise _drf_validation_from_django_password_error(exc) from exc
-        except IntegrityError:
-            raise ValidationError(
-                {'detail': 'Registration failed: email is already in use.'},
-            ) from None
-        except ProgrammingError:
             return Response(
                 {
-                    'detail': (
-                        'Database schema is missing required tables or columns. '
-                        'On the server run: python manage.py migrate'
-                    ),
+                    'user': {
+                        'id': user.id,
+                        'username': user.username,
+                        'email': user.email,
+                        'fullName': full_name,
+                        'lastName': user.last_name,
+                        'birthDate': birth_date.isoformat() if birth_date else None,
+                        'gender': gender,
+                        'hobbies': hobbies,
+                    },
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
                 },
-                status=status.HTTP_503_SERVICE_UNAVAILABLE,
+                status=status.HTTP_201_CREATED,
             )
-        except DatabaseError:
-            return Response(
-                {'detail': 'Database error during registration. Please try again in a moment.'},
-                status=status.HTTP_503_SERVICE_UNAVAILABLE,
-            )
-
-        refresh = RefreshToken.for_user(user)
-
-        return Response(
-            {
-                'user': {
-                    'id': user.id,
-                    'username': user.username,
-                    'email': user.email,
-                    'fullName': full_name,
-                    'lastName': user.last_name,
-                    'birthDate': birth_date.isoformat() if birth_date else None,
-                    'gender': gender,
-                    'hobbies': hobbies,
-                },
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            },
-            status=status.HTTP_201_CREATED,
-        )
+        except (ProgrammingError, DatabaseError):
+            return _db_unavailable_response()

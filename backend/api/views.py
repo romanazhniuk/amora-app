@@ -1,7 +1,6 @@
 import json
 
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError
 from django.utils.dateparse import parse_date, parse_datetime
 from rest_framework import status
@@ -165,29 +164,18 @@ class RegisterView(APIView):
                 email=email,
                 last_name=last_name or '',
             )
-        except DjangoValidationError as exc:
-            # Django auth validators (common password, all-numeric, etc.) — must be 400, not 500.
-            msgs = getattr(exc, 'messages', None) or [str(exc)]
-            raise ValidationError({'password': list(msgs)}) from exc
         except IntegrityError:
             raise ValidationError(
                 {'detail': 'Registration failed: email is already in use.'},
             ) from None
 
-        try:
-            UserProfile.objects.create(
-                user=user,
-                birth_date=birth_date,
-                full_name=full_name,
-                gender=gender,
-                hobbies=hobbies,
-            )
-        except IntegrityError:
-            user.delete()
-            raise ValidationError(
-                {'detail': 'Registration failed: could not create profile.'},
-            ) from None
-
+        UserProfile.objects.create(
+            user=user,
+            birth_date=birth_date,
+            full_name=full_name,
+            gender=gender,
+            hobbies=hobbies,
+        )
         refresh = RefreshToken.for_user(user)
 
         return Response(

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { MoveUpRight, ArrowRight } from 'lucide-react';
 
 import WaveFoter from './../../../../public/icons/wavefoter.svg';
 
@@ -8,12 +9,12 @@ export const Footer: React.FC = () => {
 
   return (
     <footer
-      className="relative pt-16 mt-16 pb-8 px-4 bg-primary-30 pl-4 pr-4 md:pl-6
+      className="relative pt-16 mt-16 pb-8  bg-primary-30 pl-4 pr-4 md:pl-6
      md:pr-6 lg:pl-15
-      lg:pr-15 xl:pl-40 xl:pr-40"
+      lg:pr-15 xl:pl-20 xl:pr-20"
       id="target-contact"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className=" mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           <img
             src={WaveFoter}
@@ -22,10 +23,10 @@ export const Footer: React.FC = () => {
               -translate-y-full object-fill"
           />
           <div>
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-gray-100 mb-4 leading-[1.35] -tracking-[0.01em]">
               {t('footer.title')}
             </h2>
-            <p className="text-gray-500 mb-8 max-w-xl leading-relaxed">
+            <p className="text-gray-500 mb-8 max-w-xl leading-[1.35] tracking-[0.01em]">
               {t('footer.description')}
             </p>
 
@@ -36,14 +37,14 @@ export const Footer: React.FC = () => {
                  focus-within:border-indigo-600 transition"
                 >
                   <label
-                    className="block text-xs font-bold uppercase
+                    className="block text-sm font-regular
                    text-gray-900"
                   >
                     {t('footer.form.name')}
                   </label>
                   <input
                     type="text"
-                    placeholder="John Wick"
+                    placeholder="John"
                     className="w-full py-2 bg-transparent outline-none
                      placeholder:text-gray-300"
                   />
@@ -53,7 +54,7 @@ export const Footer: React.FC = () => {
                  focus-within:border-indigo-600 transition"
                 >
                   <label
-                    className="block text-xs font-bold uppercase
+                    className="block text-sm font-regular
                    text-gray-900"
                   >
                     {t('footer.form.email')}
@@ -71,7 +72,7 @@ export const Footer: React.FC = () => {
                focus-within:border-indigo-600 transition"
               >
                 <label
-                  className="block text-xs font-bold uppercase
+                  className="block text-sm font-regular
                  text-gray-900"
                 >
                   {t('footer.form.subject')}
@@ -85,27 +86,34 @@ export const Footer: React.FC = () => {
               </div>
 
               <button
-                className="bg-[#4F46E5] hover:bg-[#4338CA]
-               text-white px-8 py-3 rounded-full flex items-center gap-2
-               transition-all transform hover:scale-105 active:scale-95"
+                className="gap-2 text-gray-0 bg-primary-dark-90
+            flex items-center  px-6 py-3 rounded-full
+            w-full lg:w-fit justify-center font-medium
+            hover:bg-primary-dark-80 whitespace-nowrap"
               >
-                {t('footer.form.send')}
+                {t('footer.form.send')}{' '}
+                <span>
+                  <ArrowRight className="h-6 w-6" />
+                </span>
               </button>
             </form>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:pl-20">
             <div>
-              <h4 className="font-bold mb-6 text-gray-900">
+              <h4 className="font-semibold text-lg mb-6 text-gray-50 leading-[1.60] -tracking-[0.01em]">
                 {t('footer.contacts_title')}
               </h4>
-              <ul className="space-y-4 text-gray-600 text-sm">
+              <ul
+                className="space-y-4 text-gray-100 text-base font-regular
+               leading-[1.60] -tracking-[0.01em]"
+              >
                 <li>
                   <a
                     href="mailto:Newpoin@team.com"
                     className="hover:text-indigo-600"
                   >
-                    Newpoin@team.com
+                    Newpoint@gmail.com
                   </a>
                 </li>
                 <li className="leading-relaxed">
@@ -125,26 +133,25 @@ export const Footer: React.FC = () => {
             </div>
 
             <div>
-              <h4 className="font-bold mb-6 text-gray-900">
+              <h4 className="font-semibold text-lg mb-6 text-gray-50 leading-[1.60] -tracking-[0.01em]">
                 {t('footer.follow_title')}
               </h4>
-              <ul className="space-y-4 text-sm text-gray-600">
+              <ul className="space-y-4 text-sm text-gray-100">
                 {['Linkedin', 'Facebook', 'Instagram', 'Twitter'].map(
                   social => (
                     <li key={social}>
                       <a
                         href="#"
-                        className="flex items-center justify-between group
-                         hover:text-indigo-600 transition"
+                        className="flex items-center w-fit group gap-3
+                         hover:text-indigo-600 transition font-regular
+                         text-base"
                       >
                         {social}
-                        <span
-                          className="text-xs transform
+                        <MoveUpRight
+                          className="h-4 w-4text-xs transform
                         group-hover:translate-x-1 group-hover:-translate-y-1
-                         transition"
-                        >
-                          ↗
-                        </span>
+                         transition text-gray-40"
+                        />
                       </a>
                     </li>
                   ),
@@ -156,19 +163,20 @@ export const Footer: React.FC = () => {
         <div
           className="pt-8 border-t border-gray-200 flex flex-col
          md:flex-row justify-center items-center gap-4
-         text-[10px] sm:text-xs text-gray-400"
+         text-[10px] sm:text-xs text-gray-70"
         >
           <div
             className="flex flex-col md:flex-row gap-4
-          items-center uppercase tracking-wider"
+          items-center  tracking-wider"
           >
             <span>{t('footer.copy')}</span>
             <span className="hidden md:inline">•</span>
             <a href="#" className="hover:underline">
               {t('footer.policy')}
-            </a>
+            </a>{' '}
+            <span className="hidden md:inline">•</span>
           </div>
-          <span className="italic">{t('footer.motto')}</span>
+          <span className="">{t('footer.motto')}</span>
         </div>
       </div>
     </footer>

@@ -1,8 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { Check, Clock } from 'lucide-react';
-import Icon_tip from './../../../public/icons/rezalt_icon_tip.svg';
-import Icon_strong from './../../../public/icons/rezalt_icon_strong.svg';
-import Icon_stats from './../../../public/icons/rezalt_icon_stats.svg';
+import {
+  Check,
+  Clock,
+  Brain,
+  BicepsFlexed,
+  ChartNoAxesCombined,
+} from 'lucide-react';
 import { ResultProps } from '../../types/test';
 
 export const Result = ({ resaltss }: ResultProps) => {
@@ -22,11 +25,9 @@ export const Result = ({ resaltss }: ResultProps) => {
     );
   }
 
-  // Отримуємо перекладені дані
   const typeTitle = t(resaltss.titleKey);
   const typeDescription = t(resaltss.descriptionKey);
 
-  // Отримуємо масиви (завжди перевіряємо на Array, щоб уникнути помилок рендеру)
   const strengths = t(resaltss.strengthsKey, { returnObjects: true });
   const growth = t(resaltss.growthKey, { returnObjects: true });
 
@@ -35,40 +36,46 @@ export const Result = ({ resaltss }: ResultProps) => {
 
   return (
     <div className="w-full flex flex-col gap-8">
-      {/* Заголовок */}
-
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* ЛІВА КОЛОНКА — Загальний опис */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           <div
-            className="inline-block bg-purple-50
-           text-purple-600 px-4 py-1 rounded-full
+            className="inline-block bg-primary-30
+           text-primary-dark-90 px-4 py-1 rounded-full
             text-sm font-semibold mb-2 w-fit"
           >
             {t('results.badge')}
           </div>
           <div className="space-y-4">
-            <p className="text-gray-700 leading-relaxed text-lg font-medium">
+            <p
+              className="text-gray-90  text-lg
+             font-regular leading-[1.35] -tracking-[0.01em]"
+            >
               {t('results.description_p1')}
             </p>
-            <p className="text-gray-600 leading-relaxed">
+            <p
+              className="text-gray-90  text-lg font-regular
+             leading-[1.35] -tracking-[0.01em] "
+            >
               {t('results.description_p2')}
             </p>
           </div>
         </div>
 
-        {/* ПРАВА КОЛОНКА — Картки результатів */}
-        <div className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Картка: Тип особистості */}
+        <div
+          className="lg:col-span-7 grid grid-cols-1
+         md:grid-cols-2 gap-4"
+        >
           <div
             className="md:col-span-2 bg-white p-6
-          rounded-3xl border border-blue-50 shadow-sm flex flex-col gap-4"
+          rounded-3xl border-2 border-blue-50
+          shadow-[0_0_10px_rgba(141,117,230,0.15)]
+          flex flex-col gap-4"
           >
             <div
               className="w-11 h-11 bg-blue-50 rounded-full
             flex items-center justify-center"
             >
-              <img src={Icon_tip} alt="Type icon" className="w-6 h-6" />
+              <Brain className="text-blue-700 h-6 w-6" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-gray-900">
@@ -83,16 +90,16 @@ export const Result = ({ resaltss }: ResultProps) => {
             </div>
           </div>
 
-          {/* Картка: Сильні сторони */}
           <div
-            className="bg-white p-6 rounded-[24px] border
-           border-gray-50 shadow-sm flex flex-col gap-4"
+            className="bg-white p-6 rounded-3xl
+           border-2 border-blue-50 shadow-[0_0_10px_rgba(141,117,230,0.15)]
+           flex flex-col gap-4"
           >
             <div
               className="w-12 h-12 bg-green-50 rounded-full
              flex items-center justify-center"
             >
-              <img src={Icon_strong} alt="Strengths icon" className="w-6 h-6" />
+              <BicepsFlexed className="text-green-700 w-6 h-6" />
             </div>
             <div>
               <h4 className="font-bold text-gray-900">
@@ -120,16 +127,16 @@ export const Result = ({ resaltss }: ResultProps) => {
             </div>
           </div>
 
-          {/* Картка: Зони росту */}
           <div
-            className="bg-white p-6 rounded-[24px]
-           border border-gray-50 shadow-sm flex flex-col gap-4"
+            className="bg-white p-6 rounded-3xl border-2
+           border-blue-50 shadow-[0_0_10px_rgba(141,117,230,0.15)]
+            flex flex-col gap-4"
           >
             <div
               className="w-12 h-12 bg-orange-50
             rounded-full flex items-center justify-center"
             >
-              <img src={Icon_stats} alt="Growth icon" className="w-6 h-6" />
+              <ChartNoAxesCombined className="text-orange-400 w-6 h-6" />
             </div>
             <div>
               <h4 className="font-bold text-gray-900">

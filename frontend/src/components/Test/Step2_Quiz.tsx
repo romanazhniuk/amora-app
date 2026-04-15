@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next'; // 1. Імпортуємо хук
 import { quizQuestions } from './quizData';
-import { ChevronRight, Check } from 'lucide-react';
+import { ChevronRight, Check, Undo2 } from 'lucide-react';
 
 import { QuizProps } from '../../types/test';
 
@@ -12,7 +12,7 @@ export const Quiz = ({
   prevStep,
   handleFinishQuiz,
 }: QuizProps) => {
-  const { t } = useTranslation('quiz'); // 2. Ініціалізуємо функцію перекладу
+  const { t } = useTranslation('quiz');
   const [currentIndex, setCurrentIndex] = useState(0);
   const currentQuestion = quizQuestions[currentIndex];
 
@@ -34,8 +34,8 @@ export const Quiz = ({
         </div>
 
         <div
-          className="inline-block bg-purple-50
-         text-purple-600 px-4 py-1 rounded-full text-sm font-semibold mb-6"
+          className="inline-block bg-primary-30
+         text-primary-dark-90 px-4 py-1 rounded-full text-sm font-semibold mb-6"
         >
           {t('quiz.question_counter', {
             current: currentIndex + 1,
@@ -45,7 +45,6 @@ export const Quiz = ({
 
         <h2 className="text-xl font-semibold mb-6">
           {t(currentQuestion.questionKey)}{' '}
-          {/* Переклад динамічного ключа питання */}
         </h2>
 
         <div className="flex flex-col gap-3">
@@ -57,28 +56,27 @@ export const Quiz = ({
                 key={option.id}
                 type="button"
                 onClick={() => handleSelect(option.id)}
-                className={`flex items-center p-4 rounded-2xl border transition-all text-left ${
+                className={`flex items-center p-4 rounded-full  transition-all text-left ${
                   isSelected
-                    ? 'border-primary bg-purple-50'
-                    : 'border-gray-20 hover:border-primary'
+                    ? 'bg-primary-dark-70 text-white  '
+                    : 'bg-primary-20 hover:bg-primary-50 '
                 }`}
               >
                 <div
-                  className={`w-5 h-5 rounded-full border-2 mr-4 flex items-center justify-center ${
-                    isSelected ? 'border-primary' : 'border-gray-30'
+                  className={`w-5 h-5 rounded-full border-2 mr-4 shrink-0 grid place-items-center ${
+                    isSelected ? 'border-white' : 'border-primary'
                   }`}
                 >
                   {isSelected && (
-                    <div className="w-2.5 h-2.5 bg-primary rounded-full" />
+                    <div className="w-3 h-3 bg-white rounded-full" />
                   )}
                 </div>
                 <span
                   className={
-                    isSelected ? 'text-primary font-medium' : 'text-gray-80'
+                    isSelected ? 'text-white font-medium' : 'text-gray-100'
                   }
                 >
                   {t(option.labelKey)}{' '}
-                  {/* Переклад динамічного ключа варіанта відповіді */}
                 </span>
               </button>
             );
@@ -87,7 +85,7 @@ export const Quiz = ({
 
         <div
           className="flex items-center justify-between w-full
-         mt-10 pt-6 border-t border-gray-20"
+         mt-10 pt-6 border-t "
         >
           <div className="flex-1">
             {currentIndex === 0 && (
@@ -97,7 +95,7 @@ export const Quiz = ({
                 className="flex items-center gap-2 text-primary-dark-90
                  font-medium hover:opacity-70 transition-all"
               >
-                {t('quiz.back_to_start')}
+                <Undo2 /> {t('quiz.back_to_start')}
               </button>
             )}
           </div>
@@ -113,10 +111,10 @@ export const Quiz = ({
                 handleFinishQuiz(answers);
               }
             }}
-            className={`flex items-center gap-3 px-10 h-14 font-bold rounded-[20px] transition-all text-white ${
+            className={`flex items-center gap-3 px-10 h-14 font-bold rounded-full transition-all text-white ${
               answers[currentIndex]
                 ? 'bg-primary-dark-80 hover:bg-primary-dark-90'
-                : 'bg-gray-30 cursor-not-allowed'
+                : 'bg-primary-20 cursor-not-allowed'
             }`}
           >
             {currentIndex < quizQuestions.length - 1 ? (

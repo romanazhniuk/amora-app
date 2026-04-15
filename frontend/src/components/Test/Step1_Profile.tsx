@@ -28,11 +28,15 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
 
   return (
     <div className="w-full  flex flex-col items-center">
-      <div className="item-start w-fit">
-        <h2 className="text-gray-100 text-[26px]">{t('Test_title')}</h2>
-        <p className="text-gray-70 text-[24px] mt-2">{t('Test_description')}</p>
+      <div className="item-start w-fit mb-6">
+        <h2 className="text-gray-100 text-2xl font-semibold">
+          {t('Test_title')}
+        </h2>
+        <p className="text-gray-70 text-base mt-2 font-regular">
+          {t('Test_description')}
+        </p>
       </div>
-      <div className="flex flex-row gap-8 w-full mb-10 ">
+      <div className="flex flex-row gap-8 w-full mb-8 ">
         <div className="flex flex-col w-1/2 ">
           <label
             htmlFor="fullName"
@@ -78,8 +82,8 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
         </div>
       </div>
 
-      <div className="mb-4  w-full">
-        <label className="  text-base font-semibold text-gray-80  ">
+      <div className="mb-8  w-full">
+        <label className="  text-sm font-semibold text-gray-80  ">
           {t('Test_gender')}
         </label>
         <div className="flex flex-wrap gap-3 mt-4">
@@ -94,7 +98,7 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
                 className={`flex-1 py-3 px-6 rounded-full border text-sm font-medium transition-all ${
                   isSelected
                     ? 'bg-primary-dark-90 text-white border-primary-dark-90'
-                    : 'bg-white text-primary border-gray-20 hover:border-primary'
+                    : 'bg-white text-primary-dark-90 border-gray-20 hover:border-primary'
                 }`}
               >
                 {item.label}
@@ -108,11 +112,11 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
       </div>
 
       {/* Кнопки віку */}
-      <div className="mb-4 w-full">
-        <label className="block text-base font-semibold text-gray-80 mb-4 ml-1">
+      <div className="mb-8 w-full">
+        <label className="block text-sm font-semibold text-gray-80 mb-4 ml-1">
           {t('Test_old')}
         </label>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap  gap-3">
           {ageRanges.map(range => {
             const isSelected = data.ageRange === range;
 
@@ -121,10 +125,10 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
                 key={range}
                 type="button"
                 onClick={() => updateProfile({ ageRange: range })}
-                className={`py-2 px-6 rounded-full border text-sm font-medium transition-all duration-300 ${
+                className={` py-2 px-6 rounded-full border text-sm font-medium transition-all duration-300 ${
                   isSelected
                     ? 'bg-primary-dark-90 text-white border-primary-dark-90'
-                    : 'bg-white text-primary border-gray-20 hover:border-primary'
+                    : 'bg-white text-primary-dark-90 border-gray-20 hover:border-primary'
                 }`}
               >
                 {range}
@@ -137,7 +141,7 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
         )}
       </div>
       <div className="mb-8">
-        <label className="block text-base font-semibold text-gray-80 mb-4 ml-1">
+        <label className="block text-sm font-semibold text-gray-80 mb-4 ml-1">
           {t('Register_interests_label')}{' '}
         </label>
 
@@ -162,7 +166,7 @@ export const Profile = ({ data, updateProfile, errors }: ProfileProps) => {
                 className={`py-2 px-5 rounded-full border text-sm font-medium transition-all whitespace-nowrap ${
                   isSelected
                     ? 'bg-primary-dark-90 text-white border-primary-dark-90'
-                    : 'bg-white text-primary border-gray-20 hover:border-primary'
+                    : 'bg-white text-primary-dark-90 border-gray-20 hover:border-primary'
                 }`}
               >
                 {item.label}

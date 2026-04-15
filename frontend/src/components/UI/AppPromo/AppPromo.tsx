@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { BadgeCheck } from 'lucide-react';
 
 export const AppPromo: React.FC = () => {
   const { t } = useTranslation();
@@ -11,8 +12,8 @@ export const AppPromo: React.FC = () => {
     >
       <div className="flex-1 flex flex-col text-left">
         <div
-          className="mb-6 px-6 py-1 bg-primary-20 text-primary-dark-90
-         text-lg font-semibold rounded-full w-fit"
+          className=" px-6 py-1 bg-primary-30 text-primary-dark-90
+         text-lg font-semibold rounded-full w-fit mb-8"
         >
           {t('Addition')}
         </div>
@@ -35,45 +36,35 @@ export const AppPromo: React.FC = () => {
             t('AppPromo_description_p_3'),
           ].map((text, index) => (
             <li key={index} className="flex items-start gap-3">
-              <div className="mt-1 bg-green-500 rounded-full p-1 shrink-0">
-                <svg
-                  className="w-3 h-3 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={4}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
+              <BadgeCheck className="w-6 h-6 text-green-600" />
               <span className="text-gray-700 font-medium">{text}</span>
             </li>
           ))}
         </ul>
 
         {/* Кнопки */}
-        <div className="flex flex-col lg:flex-row gap-4">
+        <div className="flex flex-col lg:flex-row gap-4 w-fit">
           <button
-            className="flex items-center gap-2 bg-[#4C459D] border-2
-           text-white px-8 py-4 lg:w-[50%] lg:h-16
-           rounded-2xl hover:bg-opacity-90 transition-all shadow-lg"
+            className="flex items-center gap-2
+          bg-primary-dark-90 border-2 text-white
+           border-indigo-100  pl-9 pr-2 py-4 lg:w-[50%]
+            lg:h-16 rounded-full hover:bg-primary-dark-80 transition-all shadow-sm"
           >
-            <img src="./img/Apple.png" className="w-4 h-4 " alt="Apple" />
-            <span className="font-semibold">{t('AppPromo_IOS')}</span>
+            <img src="./icons/apple.svg" className="w-6 h-6 " alt="Apple" />
+            <span className="font-medium">{t('AppPromo_IOS')}</span>
           </button>
 
           <button
-            className="flex items-center gap-2
+            className="w-fit flex items-center gap-2
           bg-[#F4F2FF] text-[#4C459D] border-2
-           border-indigo-100  px-8 py-4 lg:w-[50%]
-            lg:h-16 rounded-2xl hover:bg-indigo-50 transition-all shadow-sm"
+           border-indigo-100  pl-6 pr-11 py-4 lg:w-[50%]
+            lg:h-16 rounded-full hover:bg-indigo-50 transition-all shadow-sm
+            "
           >
             <img src="./img/play.png" className="w-6 h-6" alt="Android" />
-            <span className="font-semibold">{t('AppPromo_Android')}</span>
+            <span className="font-medium w-fit whitespace-nowrap">
+              {t('AppPromo_Android')}
+            </span>
           </button>
         </div>
       </div>

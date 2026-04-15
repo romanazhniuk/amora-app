@@ -21,7 +21,7 @@ export const StepOne = ({ formData, errors, handleChange }: StepProps) => {
           className="text-sm font-medium
              text-gray-100 mb-2 ml-1"
         >
-          {t('Register_fullname')}
+          {t('Register_fullnameinput')}
         </label>
         <input
           required
@@ -81,9 +81,10 @@ export const StepOne = ({ formData, errors, handleChange }: StepProps) => {
           required
           type="password"
           name="password"
-          placeholder="Пароль"
+          placeholder={t('Register_password_')}
           onChange={handleChange}
           value={formData.password}
+          autoComplete="new-password"
           className={`w-full h-11.5 px-5 rounded-full border bg-white text-sm outline-none transition-all ${
             errors.password
               ? 'border-error focus:border-red-600'
@@ -108,9 +109,10 @@ export const StepOne = ({ formData, errors, handleChange }: StepProps) => {
           required
           type="password"
           name="confirmPassword"
-          placeholder="Підтвердіть пароль"
+          placeholder={t('Register_Input_passwordC')}
           onChange={handleChange}
           value={formData.confirmPassword}
+          autoComplete="new-password"
           className={`w-full h-11.5 px-5 rounded-full border bg-white text-sm outline-none transition-all ${
             errors.confirmPassword
               ? 'border-error focus:border-red-600'

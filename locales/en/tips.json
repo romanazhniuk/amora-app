@@ -1,35 +1,107 @@
 {
-  "TipsSection_title" : "Tips and general recommendations",
-  "TipsSection_description" : "Explore our collection of wellness resources designed to improve your emotional well-being, reduce stress, and support your mental health.",
+  "TipsSection_title": "Tips and General Recommendations",
+  "TipsSection_description": "Explore our collection of wellness resources designed to enhance your emotional well-being, reduce stress, and support your mental health.",
+  "Health_resources": "Wellness Resources",
+  "Recommendations": "Recommendations",
+  "Recommendations_deck": "We have selected content and techniques specifically for your personality type.",
+  "Recommendations_Review": "View",
   "TipsSection": {
-    "title": "Useful tips",
-    "description": "Choose a category to get personalized recommendations for improving your condition.",
+    "title": "Useful Tips",
+    "description": "Choose a category to receive personalized recommendations for improving your well-being.",
     "categories": {
-      "breathing": " Breathing techniques",
-      "music": " Music recommendations",
-      "movies": " Inspiring movies",
-      "books": " Recommended books"
+      "breathing": "Breathing Exercises",
+      "music": "Music",
+      "movies": "Movies",
+      "books": "Books"
     },
     "items": {
       "breathing_478": {
         "title": "4-7-8 Breathing",
-        "text": "Inhale for 4 seconds, hold for 7, exhale for 8."
+        "text": "A natural way to fall asleep: inhale for 4s, hold for 7s, exhale for 8s."
       },
       "breathing_box": {
-        "title": "Box breathing",
-        "text": "4 seconds inhale — 4 second hold — 4 second exhale."
+        "title": "Box Breathing",
+        "text": "A technique for focus and calm: inhale, hold, exhale, and pause—all for 4 seconds each."
+      },
+      "breathing_deep": {
+        "title": "Deep Relaxation",
+        "text": "A slow inhale through the nose and a maximal long exhale through the mouth to calm the heart."
+      },
+      "breathing_lion": {
+        "title": "Lion's Breath",
+        "text": "A powerful exhale with an open mouth. Best for relieving stress and facial muscle tension."
+      },
+      "breathing_alternate": {
+        "title": "Alternate Nostril Breathing",
+        "text": "Breathing through the left and right nostrils alternately to balance emotions and logic."
+      },
+      "breathing_diaphragm": {
+        "title": "Belly Breathing",
+        "text": "Activate the diaphragm for deep oxygen exchange and internal organ massage."
       },
       "lofi_music": {
-        "title": "LoFi music",
-        "text": "Calm music for stress relief"
+        "title": "LoFi Music",
+        "text": "Calm music for stress relief and concentration."
       },
-      "self_help_books": {
-        "title": "Self-help books",
-        "text": "Explore our curated list of self-help books for personal growth and emotional well-being."
+      "nature_sounds": {
+        "title": "Nature Sounds",
+        "text": "Sounds of rain, forest, or ocean for deep peace."
+      },
+      "classical_relax": {
+        "title": "Classical Music",
+        "text": "Classical masterpieces to harmonize your internal state."
+      },
+      "ambient_space": {
+        "title": "Ambient",
+        "text": "Atmospheric soundscapes for meditation."
+      },
+      "piano_solos": {
+        "title": "Piano",
+        "text": "Gentle piano melodies for evening relaxation."
+      },
+      "tibetan_bowls": {
+        "title": "Tibetan Bowls",
+        "text": "Sound therapy for energy restoration."
       },
       "relaxing_movies": {
-        "title": "Relaxing movies",
-        "text": "Discover a selection of relaxing movies to unwind and boost your mood."
+        "title": "Relaxing Movies",
+        "text": "A selection of calm movies to boost your mood."
+      },
+      "nature_doc": {
+        "title": "Nature Documentaries",
+        "text": "Incredible shots of the planet that soothe the mind."
+      },
+      "feel_good_cinema": {
+        "title": "Feel-Good Cinema",
+        "text": "Movies that leave you with a warm feeling after watching."
+      },
+      "studio_ghibli": {
+        "title": "Ghibli Animation",
+        "text": "The aesthetic and peaceful worlds of Hayao Miyazaki."
+      },
+      "travel_vlogs": {
+        "title": "Travel",
+        "text": "Virtual walks through the most beautiful corners of the world."
+      },
+      "slow_tv": {
+        "title": "Slow TV",
+        "text": "Long-duration shots of train journeys or nature for relaxation."
+      },
+      "self_help_books": {
+        "title": "Self-Help Books",
+        "text": "Literature for personal growth and well-being."
+      },
+      "stoicism_guides": {
+        "title": "Stoicism",
+        "text": "How to stay calm in an unpredictable world."
+      },
+      "mindfulness_reads": {
+        "title": "Mindfulness",
+        "text": "Practical advice on living in the 'here and now' moment."
+      },
+      "biographies": {
+        "title": "Biographies",
+        "text": "Inspiring life stories of extraordinary people."
       }
     }
   }

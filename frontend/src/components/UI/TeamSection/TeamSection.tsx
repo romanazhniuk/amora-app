@@ -31,16 +31,19 @@ export const TeamSection: React.FC = () => {
   return (
     <section className=" mx-auto max-w-480   px-4 py-16">
       <div
-        className="flex w-fit px-6 py-1 bg-primary-20 text-primary-dark-90
+        className="flex w-fit px-6 py-1 bg-primary-30 text-primary-dark-90
       text-lg font-semibold rounded-full mb-8"
       >
         {t('Our_team')}
       </div>
       <div className="mb-12 text-left">
-        <h2 className="text-4xl font-bold text-gray-900 mb-4">
+        <h2 className="text-4xl lg:text-5xl font-bold text-gray-100 mb-4">
           {t('TeamSection_title')}
         </h2>
-        <p className="text-gray-500 max-w-3xl leading-relaxed">
+        <p
+          className="text-gray-80 max-w-3xl
+        leading-relaxed text-base lg:text-lg font-regular"
+        >
           {t('TeamSection_description')}
         </p>
       </div>
@@ -60,9 +63,14 @@ export const TeamSection: React.FC = () => {
               />
             </div>
             <div className="border-b border-gray-200 pb-2 mb-4">
-              <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
+              <h3 className="text-xl font-semibold text-gray-100">
+                {member.name}
+              </h3>
+            </div>
+            <div className="border-b border-gray-200 pb-4 mb-4 ">
               <p className="text-gray-400 text-sm mt-1">{member.role}</p>
             </div>
+
             <p className="text-gray-600 text-sm leading-relaxed mb-6 grow">
               {member.desc}
             </p>

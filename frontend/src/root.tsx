@@ -5,6 +5,8 @@ import { MainPage } from './components/pages/MainPage';
 import { LoginPage } from './components/pages/Login';
 import { RegisterPage } from './components/pages/RegisterPage';
 import { TestPage } from './components/pages/TestPage';
+import Profile from './components/pages/Profile';
+import { ProfileTest } from './components/pages/ProfileTest';
 
 export const Root = () => (
   <Router>
@@ -14,6 +16,8 @@ export const Root = () => (
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/test" element={<TestPage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/quiz" element={<ProfileTest />} />
       </Route>
     </Routes>
   </Router>

@@ -33,6 +33,12 @@ export const StepTwo = ({
     { id: 'other', label: t('genders.other') },
   ];
 
+  const maxDate = new Date();
+
+  maxDate.setFullYear(maxDate.getFullYear() - 10);
+
+  const maxDateString = maxDate.toISOString().split('T')[0];
+
   return (
     <div
       className="relative z-20 w-full max-w-120
@@ -58,6 +64,7 @@ export const StepTwo = ({
             type="date"
             name="birthDate"
             onChange={handleChange}
+            max={maxDateString}
             value={formData.birthDate}
             className="w-full h-12 px-5 rounded-full border
              border-gray-20 bg-white text-sm outline-none

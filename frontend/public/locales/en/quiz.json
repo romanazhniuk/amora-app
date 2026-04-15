@@ -3,7 +3,7 @@
     "header_title": "Next, you have 15 short questions ahead.",
     "header_subtitle": "Answer honestly — there are no right or wrong answers here.",
     "question_counter": "Question {{current}}/{{total}}",
-    "back_to_start": "← Back to start",
+    "back_to_start": "Back to start",
     "next_question": "Next Question",
     "finish_quiz": "Finish Quiz",
     "q1": {

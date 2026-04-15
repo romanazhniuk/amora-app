@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronRight, Undo2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface FormNavigationProps {
@@ -28,14 +28,14 @@ export const FormNavigation = ({
         className="flex items-center gap-2 text-primary-dark-90
         font-medium hover:opacity-70 transition-all"
       >
-        <ChevronLeft size={20} />
+        <Undo2 size={20} />
         {t(step === 1 ? 'Test_to_main' : 'Test_back')}
       </button>
       <button
         type="button"
         onClick={nextStep}
         className="flex items-center gap-3 px-10 h-14
-         bg-primary-dark-80 text-white font-bold rounded-[20px]
+         bg-primary-dark-80 text-white font-bold rounded-full
           hover:bg-primary-dark-90 transition-all"
       >
         <span>{t(isLastStep ? 'Test_finish' : 'Test_continue')}</span>

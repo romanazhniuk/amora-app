@@ -5,21 +5,22 @@ export const Recommendations = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="w-full py-12">
+    <div className="w-full">
       <div
         className="flex flex-col lg:flex-row gap-12
       items-start justify-between"
       >
         <div className="flex flex-col gap-8 max-w-[540px] font-sans">
           <h2
-            className="text-[28px] md:text-[31px]
+            className=" text-2xl
+
           font-bold text-[#1A1C1E] leading-[1.2] tracking-tight"
           >
             {t('Recomemendations_title')}
           </h2>
           <div
-            className="inline-block bg-purple-50
-           text-purple-600 px-4 py-1 rounded-full text-sm
+            className="inline-block bg-primary-30 text-primary-dark-90
+           px-4 py-1 rounded-full text-sm
             font-semibold mb-6 w-fit"
           >
             {t('Recomemendations_Tips')}
@@ -35,7 +36,7 @@ export const Recommendations = () => {
           </div>
         </div>
 
-        <div className="w-full lg:flex-1">
+        <div className="w-full lg:max-w-[50%]">
           <RecommendationCards />
         </div>
       </div>

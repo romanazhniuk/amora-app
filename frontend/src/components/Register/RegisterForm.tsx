@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-
 import { useState } from 'react';
 import { StepOne } from './StepOne';
 import { StepTwo } from './StepTwo';
@@ -19,7 +18,7 @@ export const RegisterForm = () => {
     confirmPassword: '',
     birthDate: '',
     gender: '',
-    hobbies: '',
+    hobbies: [],
   });
 
   const [errors, setErrors] = useState<
@@ -63,29 +62,30 @@ export const RegisterForm = () => {
       }
     }
 
-    // Перевірка ТІЛЬКИ для Кроку 2
     if (step === 2) {
       if (!formData.birthDate) {
         newErrors.birthDate = t('Error_required_birthDate');
         isValid = false;
+      } else {
+        const selectedDate = new Date(formData.birthDate);
+        const today = new Date();
+        const minAgeDate = new Date();
+
+        minAgeDate.setFullYear(today.getFullYear() - 10);
+
+        if (selectedDate > minAgeDate) {
+          newErrors.birthDate = t('Error_min_age_10');
+          isValid = false;
+        }
       }
 
       if (!formData.gender) {
-        newErrors.gender = t('Error_required_gender'); // Додайте цей ключ у i18n
+        newErrors.gender = t('Error_required_gender');
         isValid = false;
       }
-    }
 
-    if (step === 3) {
-      const selectedHobbies = formData.hobbies
-        ? formData.hobbies
-            .split(',')
-            .map(h => h.trim())
-            .filter(h => h !== '')
-        : [];
-
-      if (selectedHobbies.length >= 6) {
-        newErrors.hobbies = t('Error_max_hobbies_exceeded'); // "Максимум 5 хобі"
+      if (!formData.gender) {
+        newErrors.gender = t('Error_required_gender');
         isValid = false;
       }
     }
@@ -95,28 +95,36 @@ export const RegisterForm = () => {
     return isValid;
   };
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-
+  const handleSubmit = async (currentData: FormValues = formData) => {
     if (validate()) {
       try {
-        const response = await api.post('/auth/register', {
-          fullName: formData.fullName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-          birthDate: formData.birthDate,
-          gender: formData.gender,
-          hobbies: formData.hobbies,
-        });
+        const dataToSubmit = {
+          username: currentData.email,
+          email: currentData.email,
+          password: currentData.password,
+          lastName: currentData.fullName,
+          birthDate: currentData.birthDate,
+          gender: currentData.gender,
+          hobbies:
+            Array.isArray(currentData.hobbies) && currentData.hobbies.length > 0
+              ? currentData.hobbies.join(', ')
+              : '',
+        };
 
-        const { token } = response.data;
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
 
-        localStorage.setItem('accessToken', token);
+        const response = await api.post('/auth/register', dataToSubmit);
+        const { access, refresh } = response.data;
 
-        navigate('/');
-      } catch (error) {
-        // Обробка помилок від сервера (наприклад, невірний пароль)
+        if (access) {
+          localStorage.setItem('accessToken', access);
+          localStorage.setItem('refreshToken', refresh);
+          navigate('/profile');
+        } else {
+          navigate('/login');
+        }
+      } catch (error: any) {
         const serverMessage =
           error.response?.data?.message || t('Error_registration_failed');
 
@@ -125,16 +133,14 @@ export const RegisterForm = () => {
     }
   };
 
-  const handleChange = e => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    if (errors[e.target.name]) {
+    if (errors[e.target.name as keyof FormValues]) {
       setErrors({ ...errors, [e.target.name]: '' });
     }
   };
 
   const nextStep = () => {
-    // Викликаємо валідацію без аргументів,
-    // вона сама знає, який зараз крок завдяки змінній step
     if (!validate()) {
       return;
     }
@@ -142,33 +148,39 @@ export const RegisterForm = () => {
     setStep(prev => prev + 1);
   };
 
-  const toggleHobby = hobby => {
+  const toggleHobby = (hobbyId: string) => {
     setFormData(prev => {
-      const currentHobbies = prev.hobbies
-        ? prev.hobbies.split(', ').filter(h => h !== '')
-        : [];
+      const currentHobbies = Array.isArray(prev.hobbies) ? prev.hobbies : [];
+      const isSelected = currentHobbies.includes(hobbyId);
+      const updated = isSelected
+        ? currentHobbies.filter(id => id !== hobbyId)
+        : [...currentHobbies, hobbyId];
 
-      let updatedHobbies;
-
-      if (currentHobbies.includes(hobby)) {
-        updatedHobbies = currentHobbies.filter(item => item !== hobby);
-      } else {
-        if (currentHobbies.length < 10) {
-          updatedHobbies = [...currentHobbies, hobby];
-        }
-      }
-
-      return {
-        ...prev,
-        hobbies: updatedHobbies.join(', '),
-      };
+      return { ...prev, hobbies: updated };
     });
+  };
+
+  const handleButtonClick = () => {
+    if (!validate()) {
+      return;
+    }
+
+    if (step < 3) {
+      setStep(prev => prev + 1);
+    } else {
+      handleSubmit(formData);
+    }
   };
 
   return (
     <div>
-      <form onSubmit={handleSubmit} className="w-full flex flex-col ">
-        {/* КРОК 1: Основні дані */}
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          handleSubmit(formData);
+        }}
+        className="w-full flex flex-col"
+      >
         {step === 1 && (
           <>
             <StepOne
@@ -178,76 +190,58 @@ export const RegisterForm = () => {
             />
             <div
               className="relative z-20 w-full max-w-120
-      px-6 flex flex-col items-center"
+            px-6 flex flex-col items-center"
             >
               <button
                 type="button"
                 onClick={nextStep}
-                className="w-full h-11.5 bg-primary-dark-90
-               text-gray-0
-               font-bold rounded-full
-                hover:bg-primary-dark-80 transition-all mt-5 mb-5"
+                className="w-full h-11.5 bg-primary-dark-90 text-white
+                font-medium rounded-full hover:bg-primary-dark-80
+                transition-all mt-5 mb-5"
               >
                 {t('Register_page')}
               </button>
-              <div className="flex flex-col gap-3 items-center">
-                <div
-                  className="w-full relative flex items-center
-                 justify-center mb-3"
-                >
-                  <div className="absolute w-full h-0.5 bg-primary-70"></div>
-                  <span
-                    className="relative z-10 bg-white px-4 text-base
-                   text-primary-dark font-medium"
-                  >
-                    {t('Register_or')}
-                  </span>
-                </div>
-                <div className="flex flex-row gap-4 justify-center w-full">
-                  <button
-                    type="button"
-                    className="w-14 h-14 flex items-center
-                   justify-center border border-gray-10 rounded-full
-                    hover:bg-gray-10 transition-all shadow-sm shrink-0"
-                  >
-                    <img
-                      src="./icons/IconGhrom.svg"
-                      alt="Google"
-                      className="w-6 h-6"
-                    />
-                  </button>
-                  <button
-                    type="button"
-                    className="w-14 h-14 flex items-center
-                   justify-center border border-gray-10 rounded-full
-                    hover:bg-gray-10 transition-all shadow-sm shrink-0"
-                  >
-                    <img
-                      src="./icons/Iconfacboock.svg"
-                      alt="Facebook"
-                      className="w-6 h-6"
-                    />
-                  </button>
-                </div>
-                <p className="mt-3 text-sm text-gray-80">
-                  {t('Register_have')}{' '}
-                  <button
-                    onClick={() => navigate('/login')}
-                    type="button"
-                    className="font-bold
-                   text-gray-100 hover:underline ml-1"
-                  >
-                    {t('Register_sing')}
-                  </button>
-                </p>
-
-                <p
-                  className="mt-10 text-xs
-                 text-gray-60 text-center  max-w-[320px] leading-relaxed"
-                >
-                  {t('Login_description_1')}
-                </p>
+              <div className="w-full relative flex items-center justify-center mb-4">
+                <div className="absolute w-full h-0.5 bg-primary-70"></div>
+                <span className="relative z-10 bg-white px-4 text-sm text-primary-dark font-regular">
+                  {t('Register_or')}
+                </span>
               </div>
+              <div className="flex flex-row gap-4 justify-center w-full">
+                <button
+                  type="button"
+                  className="w-14 h-14 flex items-center justify-center border border-gray-10 rounded-full hover:bg-gray-10 transition-all shadow-sm shrink-0"
+                >
+                  <img
+                    src="./icons/IconGhrom.svg"
+                    alt="Google"
+                    className="w-6 h-6"
+                  />
+                </button>
+                <button
+                  type="button"
+                  className="w-14 h-14 flex items-center justify-center border border-gray-10 rounded-full hover:bg-gray-10 transition-all shadow-sm shrink-0"
+                >
+                  <img
+                    src="./icons/Iconfacboock.svg"
+                    alt="Facebook"
+                    className="w-6 h-6"
+                  />
+                </button>
+              </div>
+              <p className="mt-4 text-sm text-gray-80">
+                {t('Register_have')}{' '}
+                <button
+                  onClick={() => navigate('/login')}
+                  className="font-bold text-gray-100 hover:underline ml-1"
+                >
+                  {t('Register_sing')}
+                </button>
+              </p>
+
+              <p className="mt-6 text-xs text-gray-60 text-center max-w-[320px] leading-relaxed">
+                {t('Login_description_1')}
+              </p>
             </div>
           </>
         )}
@@ -260,6 +254,7 @@ export const RegisterForm = () => {
             errors={errors}
           />
         )}
+
         {step === 3 && (
           <StepThree
             formData={formData}
@@ -268,15 +263,14 @@ export const RegisterForm = () => {
             toggleHobby={toggleHobby}
           />
         )}
-        <div className="flex flex-col items-center ">
+
+        <div className="flex flex-col items-center">
           {step > 1 && (
             <button
-              type={step === 3 ? 'submit' : 'button'}
-              onClick={step < 3 ? nextStep : undefined}
-              className="w-full h-11.5 bg-primary-dark-90
-               text-gray-0
-               font-bold rounded-full
-                hover:bg-primary-dark-80 transition-all mt-5 mb-5"
+              type="button" // Змінено на button, бо ми самі викликаємо handleSubmit
+              onClick={handleButtonClick}
+              className="w-full h-11.5 bg-primary-dark-90 text-gray-0 font-bold
+              rounded-full hover:bg-primary-dark-80 transition-all mt-5 mb-5"
             >
               {step === 2 ? t('Test_continue') : t('Test_finish')}
             </button>

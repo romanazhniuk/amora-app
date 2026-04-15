@@ -55,23 +55,23 @@ export const LoginPage = () => {
     return isValid;
   };
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (validate()) {
       try {
         const response = await api.post('/auth/login', {
-          email: formData.email,
+          username: formData.email,
           password: formData.password,
         });
 
-        const { token } = response.data;
+        const { access, refresh } = response.data;
 
-        localStorage.setItem('accessToken', token);
-
-        navigate('/');
-      } catch (error) {
-        // Обробка помилок від сервера (наприклад, невірний пароль)
+        if (access) {
+          localStorage.setItem('accessToken', access);
+          localStorage.setItem('refreshToken', refresh);
+          navigate('/profile');
+        }
+      } catch (error: any) {
         const serverMessage = error.response?.data?.message || 'Login failed';
 
         setErrors(prev => ({ ...prev, email: serverMessage }));
@@ -140,6 +140,7 @@ export const LoginPage = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="example@gmail.com"
+              autoComplete="email"
               className={`w-full h-11.5 px-5 rounded-full border bg-white text-sm outline-none transition-all ${
                 errors.email
                   ? 'border-error focus:border-red-600'
@@ -174,7 +175,8 @@ export const LoginPage = () => {
                 type={showPassword ? 'text' : 'password'}
                 value={formData.password}
                 onChange={handleChange}
-                placeholder="Password"
+                placeholder={t('Register_password_')}
+                autoComplete="current-password"
                 className={`w-full h-11.5 px-5 rounded-full border bg-white text-sm outline-none transition-all ${
                   errors.password
                     ? 'border-error focus:border-red-600'
@@ -201,7 +203,7 @@ export const LoginPage = () => {
           </div>
           <button
             type="submit"
-            className="w-full mt-6 h-11.5 bg-primary-60 text-primary-dark-70 font-bold rounded-full mb-4 hover:bg-primary-80 transition-all"
+            className="w-full mt-6 h-11.5 bg-primary-dark-90 text-white font-medium rounded-full mb-4 hover:bg-primary-dark-80 transition-all"
           >
             {t('Login_Log')}
           </button>
@@ -209,7 +211,7 @@ export const LoginPage = () => {
 
         <div className="w-full relative flex items-center justify-center mb-4">
           <div className="absolute w-full h-0.5 bg-primary-70"></div>
-          <span className="relative z-10 bg-white px-4 text-base text-primary-dark font-medium">
+          <span className="relative z-10 bg-white px-4 text-sm text-primary-dark font-regular">
             {t('Login_Log_or')}
           </span>
         </div>

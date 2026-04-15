@@ -180,8 +180,11 @@ export const QuizContainer = () => {
   const handleFinishQuiz = () => {
     const result = calculateQuizResult(quizResults.answers);
 
-    setFinalResult(result); // Зберігаємо об'єкт результату
-    // Переходимо до екрана відображення
+    setFinalResult(result);
+
+    // Зберігаємо ключ результату окремо, щоб Profile міг його легко знайти
+    localStorage.setItem('quiz_result_key', result.key);
+
     setStep(3);
   };
 
@@ -192,7 +195,7 @@ export const QuizContainer = () => {
      bg-white flex flex-col
      pl-4 pr-4 md:pl-6
      md:pr-6 lg:pl-15
-      lg:pr-15 xl:pl-40 xl:pr-40
+      lg:pr-15 xl:pl-20 xl:pr-20
       "
     >
       {/* 1. Навігаційна панель (Stepper) */}
